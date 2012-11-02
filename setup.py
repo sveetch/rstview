@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='Django ReST View',
+    name='rstview',
     version=__import__('rstview').__version__,
     description=__import__('rstview').__doc__,
     long_description=open('README.rst').read(),
