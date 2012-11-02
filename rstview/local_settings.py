@@ -4,11 +4,6 @@ App default settings
 """
 from django.conf import settings
 
-# Active a silent reporter to avoid warnings about missing page on role ``:page:xxx``
-# If ``True`` the role will be transformed to link despite the page does not exist, 
-# if ``False`` the warning will be inserted in the render
-RSTVIEW_PARSER_WIKIROLE_SILENT_WARNING = getattr(settings, 'RSTVIEW_PARSER_WIKIROLE_SILENT_WARNING', False)
-
 # Get the first part of the local setting, required for the docutils parser that don't 
 # support the pattern ``xx_XX``.
 RSTVIEW_PARSER_LANGUAGE_CODE = getattr(settings, 'LANGUAGE_CODE', "en").split('_')[0]
