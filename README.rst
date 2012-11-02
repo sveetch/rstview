@@ -28,7 +28,9 @@ Optionnaly (but recommended) you can install **Pygments** to have highlighted sy
 Installation
 ============
 
-Just register the app in your project settings like this : ::
+Just register the app in your project settings like this :
+
+.. sourcecode:: python
 
     INSTALLED_APPS = (
         ...
@@ -41,8 +43,10 @@ If needed you can change some options, see the "local_settings.py" file to find 
 Usage
 =====
 
-Simpliest usage is to display a ReStructuredText file, like a "README.rst" from a project, assuming the file is a path below your Django project, you can add it to your project "urls.py" file like this : ::
+Simpliest usage is to display a ReStructuredText file, like a "README.rst" from a project, assuming the file is a path below your Django project, you can add it to your project "urls.py" file like this :
     
+.. sourcecode:: python
+
     ...
     from rstview.views import RSTFileView
     ...
