@@ -1,5 +1,3 @@
-.. -*- coding: utf-8 -*-
-
 =======================================
  reStructuredText Markup Specification
 =======================================
@@ -2969,7 +2967,6 @@ Markup errors are handled according to the specification in `PEP
 .. _Zope: http://www.zope.com/
 .. _PEP 258: ../../peps/pep-0258.html
 
-
 ..
    Local Variables:
    mode: indented-text
