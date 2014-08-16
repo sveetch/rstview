@@ -28,7 +28,7 @@ Optionnaly (but recommended) you can install **Pygments** to have highlighted sy
 Installation
 ============
 
-Just register the app in your project settings like this :
+Register the app in your project settings like this :
 
 .. sourcecode:: python
 
@@ -57,6 +57,8 @@ Simpliest usage is to display a ReStructuredText file, like a "README.rst" from 
     )
 
 Default settings is to render document as HTML5, you can change this behaviour to a HTML4 render that is also suitable to use in XHTML documents, see ``local_settings.RSTVIEW_PARSER_WRITER`` and override it in ``settings.RSTVIEW_PARSER_WRITER``.
+
+See also ``local_settings.RSTVIEW_PARSER_FILTER_SETTINGS`` that contains available parser settings you can use, defined ``RSTVIEW_PARSER_FILTER_SETTINGS`` in your project settings to add new parser settings. Default behavior is to use the parser settings named ``default``.
 
 RSTFileView view
 ****************
