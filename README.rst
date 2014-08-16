@@ -58,11 +58,34 @@ Simpliest usage is to display a ReStructuredText file, like a "README.rst" from 
 
 Default settings is to render document as HTML5, you can change this behaviour to a HTML4 render that is also suitable to use in XHTML documents, see ``local_settings.RSTVIEW_PARSER_WRITER`` and override it in ``settings.RSTVIEW_PARSER_WRITER``.
 
-RSTFileView
-***********
+RSTFileView view
+****************
 
 This generic view takes three optional arguments :
 
 * **doc_file_path** : the file path to parse as ReStructuredText file to render;
 * **doc_title** : the title for the document;
 * **template_name** : a custom template file path, by default this is ``rstview/fileview.html``.
+
+Template filter
+***************
+
+A template filter is available to simply transform a source text into a ReStructuredText content : ::
+
+    {% load rstview_tags %}
+
+    <div class="message">
+        {{ message_text|source_render }}
+    </div>
+
+``message_text`` has to be a variable containing a string, default behavior is to use the ``default`` parser settings from ``settings.RSTVIEW_PARSER_FILTER_SETTINGS``.
+
+If you need to use a different parser settings, just give his key name to the filter as the first argument like this : ::
+
+    {% load rstview_tags %}
+
+    <div class="message">
+        {{ message_text|source_render:"my_parser_settings" }}
+    </div>
+
+The given parser setting must be defined in ``settings.RSTVIEW_PARSER_FILTER_SETTINGS`` to works.
