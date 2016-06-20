@@ -10,24 +10,25 @@ from django.utils.safestring import mark_safe
 
 from rstview import parser
 
+
 class RSTFileView(TemplateView):
     """
     View to display a ReST file
-    
+
     Open the file, parse it and put his source and render into the context
     """
     template_name = "rstview/fileview.html"
     doc_title = None
     doc_file_path = None
     doc_parser_kwargs = {'silent':True, 'body_only':True}
-    
+
     def get_context_data(self, **kwargs):
         context = super(RSTFileView, self).get_context_data(**kwargs)
-        
+
         f = open(self.doc_file_path,'r')
         source = f.read()
         f.close()
-        
+
         context.update({
             'doc_title': self.doc_title,
             'doc_source': source,

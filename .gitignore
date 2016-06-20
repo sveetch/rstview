@@ -11,3 +11,7 @@ dist/*
 #defaults
 *.pyc
 *.pyo
+
+#tests
+.cache
+__pycache__

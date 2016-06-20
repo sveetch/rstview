@@ -17,6 +17,7 @@ setup(
         "Development Status :: 5 - Production/Stable",
         'Environment :: Web Environment',
         'Framework :: Django',
+        "Framework :: Django :: 1.8",
         'Intended Audience :: Developers',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
@@ -25,6 +26,7 @@ setup(
     ],
     install_requires=[
         'docutils>=0.7',
+        'Django>=1.8,<1.9',
     ],
     include_package_data=True,
     zip_safe=False

@@ -3,8 +3,8 @@ Original code is from 'Bradley Wright' on Github :
 
 https://github.com/bradleywright/rst-to-semantic-html5
 
-Stealed and modified as i want to keep <section/> and i don't want to take the same way 
-than 'rst-to-semantic-html5'
+Stealed and modified as i want to keep <section/> and i don't want to take the
+same way than 'rst-to-semantic-html5'
 """
 import re
 
@@ -13,6 +13,7 @@ from docutils.writers import html4css1
 from docutils.core import publish_parts
 from docutils.parsers.rst import roles, directives, Directive
 
+
 class SemanticHTML5Writer(html4css1.Writer):
     """
     This docutils writer will use the SemanticHTML5Translator class below.
@@ -20,6 +21,7 @@ class SemanticHTML5Writer(html4css1.Writer):
     def __init__(self):
         html4css1.Writer.__init__(self)
         self.translator_class = SemanticHTML5Translator
+
 
 class SemanticHTML5Translator(html4css1.HTMLTranslator):
     """
@@ -80,16 +82,21 @@ def inline_roles(role, raw, text, *args):
     elif role == 'var':
         return [nodes.literal('var', text)], []
 
+
 roles.register_local_role('kbd', inline_roles)
 roles.register_local_role('var', inline_roles)
+
 
 # FIXME: this has to be lowercase for some reason
 class abbreviation(nodes.Inline, nodes.TextElement):
     """Node for abbreviations with explanations."""
 
+
 nodes._add_node_class_names('abbreviation')
 
+
 _abbr_re = re.compile('\((.*)\)$', re.S)
+
 
 def abbr_role(typ, rawtext, text, lineno, inliner, options={}, content=[]):
     text = utils.unescape(text)
@@ -99,5 +106,6 @@ def abbr_role(typ, rawtext, text, lineno, inliner, options={}, content=[]):
     abbr = text[:m.start()].strip()
     expl = m.group(1)
     return [abbreviation(abbr, abbr, explanation=expl)], []
+
 
 roles.register_local_role('abbr', abbr_role)
