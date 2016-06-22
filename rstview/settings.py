@@ -2,6 +2,13 @@
 """
 App default settings
 """
+# Some docutils security settings you should not change
+# They're automaticlly appended to each used settings from parser
+RSTVIEW_PARSER_SECURITY = {
+    'halt_level': 6,
+    'enable_exit': 0
+}
+
 # Get the first part of the local setting, required for the docutils parser
 # that don't support the pattern ``xx_XX``.
 RSTVIEW_PARSER_LANGUAGE_CODE = "en"
@@ -20,14 +27,6 @@ RSTVIEW_PARSER_ENABLE_RAW_INSERTION = False
 # ``html4css1``)
 RSTVIEW_PARSER_FILTER_SETTINGS = {
     'default':{
-        'initial_header_level': 3,
-        'file_insertion_enabled': RSTVIEW_PARSER_ENABLE_FILE_INSERTION,
-        'raw_enabled': RSTVIEW_PARSER_ENABLE_RAW_INSERTION,
-        'language_code': RSTVIEW_PARSER_LANGUAGE_CODE,
-        'footnote_references': 'superscript',
-        'doctitle_xform': False,
-    },
-    'short':{
         'initial_header_level': 3,
         'file_insertion_enabled': RSTVIEW_PARSER_ENABLE_FILE_INSERTION,
         'raw_enabled': RSTVIEW_PARSER_ENABLE_RAW_INSERTION,

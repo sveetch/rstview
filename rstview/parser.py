@@ -23,12 +23,12 @@ except ImportError:
     pass
 
 
-def get_functional_settings(setting_key, body_only, initial_header_level, silent):
+def get_functional_settings(setting_key, initial_header_level=None, silent=True):
     """
     Compute various parser settings and options to return an unique settings dict
     """
     parser_settings = copy.deepcopy(settings.RSTVIEW_PARSER_FILTER_SETTINGS[setting_key])
-    parser_settings.update({'halt_level':6, 'enable_exit':0})
+    parser_settings.update(settings.RSTVIEW_PARSER_SECURITY)
     if silent:
         parser_settings.update({'report_level': 5})
     if initial_header_level:
@@ -40,7 +40,7 @@ def SourceParser(source, setting_key="default", body_only=True, initial_header_l
     """
     Parse the source with the given options and settings
     """
-    parser_settings = get_functional_settings(setting_key, body_only, initial_header_level, silent)
+    parser_settings = get_functional_settings(setting_key, initial_header_level, silent)
 
     # Switch between xhtml (aka html4css1 in docutils) and custom html5 writer
     if settings.RSTVIEW_PARSER_WRITER == 'html5':
