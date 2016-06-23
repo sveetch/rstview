@@ -109,11 +109,3 @@ def SourceReporter(data, setting_key="default"):
         # NOTE: Is this still necessary ?
         pass
     return reporter.messages
-
-
-def map_parsing_errors(error):
-    """
-    Nice render for errors and warnings
-    """
-    code, message, content, source = error
-    return u"Line {lineno} : {message}".format(lineno=source.get('line', 0), message=message)
