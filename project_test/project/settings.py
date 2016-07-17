@@ -107,8 +107,8 @@ STATIC_URL = '/static/'
 """
 NOTE:
     * Every things above comes from default generated settings file (from Django startproject);
-    * Every things below are needed settings for Bazar and its third apps;
-    * Don't edit default generated settings, instead edit them again below;
+    * Every things below are needed settings for rstview;
+    * Don't edit default generated settings, instead override them below;
 """
 PROJECT_PATH = os.path.join(BASE_DIR, 'project')
 

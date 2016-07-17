@@ -74,7 +74,9 @@ class SemanticHTML5Translator(html4css1.HTMLTranslator):
 class kbd(nodes.Inline, nodes.TextElement):
     """Node for kbd element"""
 
+
 nodes._add_node_class_names('kbd')
+
 
 def inline_roles(role, raw, text, *args):
     if role == 'kbd':
@@ -87,7 +89,7 @@ roles.register_local_role('kbd', inline_roles)
 roles.register_local_role('var', inline_roles)
 
 
-# FIXME: this has to be lowercase for some reason
+# Node plugin name have to be lowercase for some reasons from docutils
 class abbreviation(nodes.Inline, nodes.TextElement):
     """Node for abbreviations with explanations."""
 

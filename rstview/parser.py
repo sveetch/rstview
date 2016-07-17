@@ -29,10 +29,13 @@ def get_functional_settings(setting_key, initial_header_level=None, silent=True)
     """
     parser_settings = copy.deepcopy(settings.RSTVIEW_PARSER_FILTER_SETTINGS[setting_key])
     parser_settings.update(settings.RSTVIEW_PARSER_SECURITY)
+
     if silent:
         parser_settings.update({'report_level': 5})
+
     if initial_header_level:
         parser_settings['initial_header_level'] = initial_header_level
+
     return parser_settings
 
 
