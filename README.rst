@@ -44,7 +44,7 @@ Usage
 =====
 
 Simpliest usage is to display a ReStructuredText file, like a "README.rst" from a project, assuming the file is a path below your Django project, you can add it to your project "urls.py" file like this :
-    
+
 .. sourcecode:: python
 
     ...
@@ -68,6 +68,11 @@ This generic view takes three optional arguments :
 * **doc_file_path** : the file path to parse as ReStructuredText file to render;
 * **doc_title** : the title for the document;
 * **template_name** : a custom template file path, by default this is ``rstview/fileview.html``.
+
+Source validation
+*****************
+
+TODO from *rstview.reporter*
 
 Template filter
 ***************

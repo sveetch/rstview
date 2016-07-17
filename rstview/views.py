@@ -2,9 +2,6 @@
 """
 ReStructuredText views
 """
-from django.template import RequestContext
-from django.shortcuts import render_to_response
-from django.utils.encoding import smart_str
 from django.views.generic import TemplateView
 from django.utils.safestring import mark_safe
 
