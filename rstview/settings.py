@@ -23,8 +23,8 @@ RSTVIEW_PARSER_ENABLE_RAW_INSERTION = False
 
 # Available parser settings
 # These are options only for docutils parser, see
-# http://docutils.sourceforge.net/docs/user/config.html (The used writer is
-# ``html4css1``)
+# http://docutils.sourceforge.net/docs/user/config.html
+# 'default' should be allways present
 RSTVIEW_PARSER_FILTER_SETTINGS = {
     'default':{
         'initial_header_level': 3,

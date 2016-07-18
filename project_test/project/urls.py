@@ -22,16 +22,31 @@ from django.views.generic.base import TemplateView
 
 from rstview.views import RSTFileView
 
+
 def getsourcepath(filename):
+    """Shortcut for absolute path to a test fixture file"""
     return os.path.join(settings.TESTS_FIXTURES_DIR, filename)
+
 
 urlpatterns = [
     #url(r'^admin/', include(admin.site.urls)),
 
     # Dummy homepage just for simple ping view
-    url(r'^$', TemplateView.as_view(template_name="homepage.html"), name='home'),
+    url(r'^$', TemplateView.as_view(
+        template_name="homepage.html"
+    ), name='home'),
 
     # Some views using ``rstview.views.RSTFileView``
-    url(r'^basic/$', RSTFileView.as_view(doc_file_path=getsourcepath("basic/input.rst"), doc_title="Basic sample"), name='sample-basic'),
-    url(r'^advanced/$', RSTFileView.as_view(doc_file_path=getsourcepath("advanced/input.rst"), doc_title="Advanced sample"), name='sample-advanced'),
+    url(r'^basic/$', RSTFileView.as_view(
+        doc_path=getsourcepath("basic/input.rst"),
+        doc_title="Basic sample"
+    ), name='sample-basic'),
+    url(r'^advanced/$', RSTFileView.as_view(
+        doc_path=getsourcepath("advanced/input.rst"),
+        doc_title="Advanced sample"
+    ), name='sample-advanced'),
+    url(r'^invalid/$', RSTFileView.as_view(
+        doc_path=getsourcepath("invalid/input.rst"),
+        doc_title="Invalid sample"
+    ), name='sample-invalid'),
 ]

@@ -15,3 +15,4 @@ dist/*
 #tests
 .cache
 __pycache__
+project_test/db.sqlite3

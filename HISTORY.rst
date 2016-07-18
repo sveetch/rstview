@@ -13,6 +13,7 @@ Version 0.3.0 - Unreleased
   * ``rstview.parser.SilentReporter`` has moved to ``rstview.reporter.SilentReporter``;
   * ``rstview.parser.SourceReporter`` has moved to ``rstview.reporter.SourceReporter``;
   * ``rstview.parser.map_parsing_errors`` has moved to ``rstview.reporter.format_parsing_errors``;
+  * Improved view ``rstview.views.RSTFileView`` to be more flexible;
   * Default shipped view template now inherits from ``skeleton.html`` instead of ``base.html``;
 
 Version 0.2.1 - 2014/08/17

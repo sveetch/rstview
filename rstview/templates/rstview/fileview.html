@@ -1,5 +1,7 @@
 {% extends "skeleton.html" %}
 
+{% block head_title %}{{ doc_title }} - {{ block.super }}{% endblock %}
+
 {% block base_content %}
 <h2>{{ doc_title }}</h2>
 {{ doc_html }}

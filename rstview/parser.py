@@ -61,7 +61,7 @@ def build_output(source, output_filepath, **kwargs):
 
     User to build an attempted source render into a file.
     """
-    render = parser.SourceParser(source, **kwargs)
+    render = SourceParser(source, **kwargs)
 
     with open(output_filepath, 'w') as fp:
         attempted = fp.write(render)
