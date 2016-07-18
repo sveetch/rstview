@@ -17,7 +17,10 @@ class RSTFileView(TemplateView):
     template_name = "rstview/fileview.html"
     doc_title = None
     doc_file_path = None
-    doc_parser_kwargs = {'silent':True, 'body_only':True}
+    doc_parser_kwargs = {
+        'silent':True,
+        'body_only':True
+    }
 
     def get_context_data(self, **kwargs):
         context = super(RSTFileView, self).get_context_data(**kwargs)

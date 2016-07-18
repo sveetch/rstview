@@ -50,3 +50,18 @@ def SourceParser(source, setting_key="default", body_only=True, initial_header_l
     if body_only:
         return parts['fragment']
     return parts
+
+
+def build_output(source, output_filepath, **kwargs):
+    """
+    Very basic shortcut helper to build a file from rendered source
+    ``rstview.parser.SourceParser``
+
+    ``kwargs`` are the same named arguments attempted from SourceParser.
+
+    User to build an attempted source render into a file.
+    """
+    render = parser.SourceParser(source, **kwargs)
+
+    with open(output_filepath, 'w') as fp:
+        attempted = fp.write(render)

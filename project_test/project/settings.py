@@ -112,6 +112,9 @@ NOTE:
 """
 PROJECT_PATH = os.path.join(BASE_DIR, 'project')
 
+# Absolute filesystem path to the directory that contain tests fixtures files
+TESTS_FIXTURES_DIR = os.path.join(BASE_DIR, 'tests', 'data_fixtures')
+
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
 MEDIA_ROOT = os.path.join(PROJECT_PATH, 'media')

@@ -1,25 +1,11 @@
+"""
+TODO: Lack of tests with encoding issues (unicode, etc..)
+"""
 import os
 
 import pytest
 
 from rstview import parser
-
-#SourceParser(source, setting_key="default", body_only=True, initial_header_level=None, silent=True)
-
-
-def build_output(source, output_filepath, **kwargs):
-    """
-    Basic code to build HTML output file from a source using SourceParser
-    (docutils CLI tools are not really useful for that)
-
-    ``kwargs`` are the same named arguments attempted from SourceParser.
-
-    User to build an attempted source render into a file.
-    """
-    render = parser.SourceParser(source, **kwargs)
-
-    with open(output_filepath, 'w') as fp:
-        attempted = fp.write(render)
 
 
 def test_parser_basic_content(settings):
@@ -79,7 +65,7 @@ def test_parser_file(settings, storageparameters, source_filename, output_filena
         attempted = fp.read()
 
     ## Temporary
-    #build_output(source, output_filepath, setting_key="default",
+    #parser.build_output(source, output_filepath, setting_key="default",
                  #body_only=True, initial_header_level=None,
                  #silent=False)
 

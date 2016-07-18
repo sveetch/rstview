@@ -12,14 +12,26 @@ Class-based views
 Including another URLconf
     1. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+import os
+
+from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
 
 from django.views.generic.base import TemplateView
+
+from rstview.views import RSTFileView
+
+def getsourcepath(filename):
+    return os.path.join(settings.TESTS_FIXTURES_DIR, filename)
 
 urlpatterns = [
     #url(r'^admin/', include(admin.site.urls)),
 
     # Dummy homepage just for simple ping view
     url(r'^$', TemplateView.as_view(template_name="homepage.html"), name='home'),
+
+    # Some views using ``rstview.views.RSTFileView``
+    url(r'^basic/$', RSTFileView.as_view(doc_file_path=getsourcepath("basic/input.rst"), doc_title="Basic sample"), name='sample-basic'),
+    url(r'^advanced/$', RSTFileView.as_view(doc_file_path=getsourcepath("advanced/input.rst"), doc_title="Advanced sample"), name='sample-advanced'),
 ]
