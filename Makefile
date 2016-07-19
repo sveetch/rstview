@@ -30,3 +30,6 @@ quality: tests flake
 release:
 	python setup.py sdist
 	python setup.py sdist upload
+
+server:
+	cd project_test && ./manage.py runserver 0.0.0.0:8001

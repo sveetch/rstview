@@ -28,6 +28,26 @@ def getsourcepath(filename):
     return os.path.join(settings.TESTS_FIXTURES_DIR, filename)
 
 
+class SourceReaderView(RSTFileView):
+    """
+    Dummy view to read source content from given filepath and render it
+    through a template tag
+
+    Open source file alike RSTFileView but don't do all the parser things
+    """
+    template_name = "templatetags_usage.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(RSTFileView, self).get_context_data(**kwargs)
+
+        context.update({
+            'doc_title': self.get_document_title(**kwargs),
+            'doc_path': self.doc_path,
+            'doc_source': self.get_source(**kwargs),
+        })
+        return context
+
+
 urlpatterns = [
     #url(r'^admin/', include(admin.site.urls)),
 
@@ -37,16 +57,30 @@ urlpatterns = [
     ), name='home'),
 
     # Some views using ``rstview.views.RSTFileView``
-    url(r'^basic/$', RSTFileView.as_view(
+    url(r'^view/basic/$', RSTFileView.as_view(
         doc_path=getsourcepath("basic/input.rst"),
         doc_title="Basic sample"
-    ), name='sample-basic'),
-    url(r'^advanced/$', RSTFileView.as_view(
+    ), name='sample-view-basic'),
+    url(r'^view/advanced/$', RSTFileView.as_view(
         doc_path=getsourcepath("advanced/input.rst"),
         doc_title="Advanced sample"
-    ), name='sample-advanced'),
-    url(r'^invalid/$', RSTFileView.as_view(
+    ), name='sample-view-advanced'),
+    url(r'^view/invalid/$', RSTFileView.as_view(
         doc_path=getsourcepath("invalid/input.rst"),
         doc_title="Invalid sample"
-    ), name='sample-invalid'),
+    ), name='sample-view-invalid'),
+
+    # Views to render source from template tag
+    url(r'^templatetag/basic/$', SourceReaderView.as_view(
+        doc_path=getsourcepath("basic/input.rst"),
+        doc_title="Basic sample"
+    ), name='sample-tag-basic'),
+    url(r'^templatetag/advanced/$', SourceReaderView.as_view(
+        doc_path=getsourcepath("advanced/input.rst"),
+        doc_title="Advanced sample"
+    ), name='sample-tag-advanced'),
+    url(r'^templatetag/invalid/$', SourceReaderView.as_view(
+        doc_path=getsourcepath("invalid/input.rst"),
+        doc_title="Invalid sample"
+    ), name='sample-tag-invalid'),
 ]

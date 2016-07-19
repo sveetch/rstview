@@ -14,20 +14,20 @@ def test_ping_index(client):
 
 
 @pytest.mark.parametrize("urlname,output_filename,writer", [
-    ("sample-basic", "basic/page-html5.html", "html5"),
-    ("sample-basic", "basic/page-html4.html", "html4"),
-    ("sample-advanced", "advanced/page-html5.html", "html5"),
-    ("sample-advanced", "advanced/page-html4.html", "html4"),
-    ("sample-invalid", "invalid/page-html5.html", "html5"),
-    ("sample-invalid", "invalid/page-html4.html", "html4"),
+    ("sample-view-basic", "basic/page-html5.html", "html5"),
+    ("sample-view-basic", "basic/page-html4.html", "html4"),
+    ("sample-view-advanced", "advanced/page-html5.html", "html5"),
+    ("sample-view-advanced", "advanced/page-html4.html", "html4"),
+    ("sample-view-invalid", "invalid/page-html5.html", "html5"),
+    ("sample-view-invalid", "invalid/page-html4.html", "html4"),
 ])
 def test_render_basic(settings, client, urlname, output_filename, writer):
-    """Checking rendered view"""
+    """Checking rendered source through view"""
     settings.RSTVIEW_PARSER_WRITER = writer
 
     response = client.get(reverse(urlname))
 
-    print response.content
+    #print response.content
 
     input_filepath = os.path.join(settings.TESTS_FIXTURES_DIR, output_filename)
     with open(input_filepath, 'r') as fp:

@@ -1,0 +1,9 @@
+{% extends "skeleton.html" %}
+
+{% block head_title %}{{ doc_title }} - {{ block.super }}{% endblock %}
+{% load rstview_tags %}
+
+{% block base_content %}
+<h2>{{ doc_title }}</h2>
+{% rst_render doc_source %}
+{% endblock %}

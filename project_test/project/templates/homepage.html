@@ -2,6 +2,20 @@
 
 {% block base_content %}
 <div class="row">
-    <h1>Hello World</h1>
+    <h1>Sample projet for rstview</h1>
+
+    <h2>rstview.views.RSTFileView</h2>
+    <ul>
+        <li><a href="{% url 'sample-view-basic' %}">Basic</a></li>
+        <li><a href="{% url 'sample-view-advanced' %}">Advanced</a></li>
+        <li><a href="{% url 'sample-view-invalid' %}">Invalid</a></li>
+    </ul>
+
+    <h2>rstview.templatetags.rstview_tags.rst_render</h2>
+    <ul>
+        <li><a href="{% url 'sample-tag-basic' %}">Basic</a></li>
+        <li><a href="{% url 'sample-tag-advanced' %}">Advanced</a></li>
+        <li><a href="{% url 'sample-tag-invalid' %}">Invalid</a></li>
+    </ul>
 </div>
 {% endblock %}

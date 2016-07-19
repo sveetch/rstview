@@ -7,8 +7,6 @@ import pytest
 
 from rstview import parser
 
-print "FOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"
-print parser
 
 def test_parser_basic_content(settings):
     """Parse a basic input with default writer (html5) and returned body"""
@@ -37,13 +35,31 @@ def test_parser_no_body_only(settings):
     assert render['body'] == """<p>Lorem <strong>ipsum</strong> salace</p>\n"""
 
 
-def test_parser_invalid_syntax(settings):
-    """Parse a basic invalid input"""
+def test_parser_invalid_syntax_silent(settings):
+    """Parse a basic invalid input with silent mode enabled"""
     source = """Lorem **ipsum salace"""
     render = parser.SourceParser(source, setting_key="default", body_only=True,
                                  initial_header_level=None, silent=True)
 
-    assert render == """<p>Lorem <a href="#id1"><span class="problematic" id="id2">**</span></a>ipsum salace</p>\n"""
+    assert render == ("""<p>Lorem <a href="#id1">"""
+                      """<span class="problematic" id="id2">**</span></a>ipsum """
+                      """salace</p>\n""")
+
+
+def test_parser_invalid_syntax_nosilent(settings):
+    """Parse a basic invalid input with silent mode disabled"""
+    source = """Lorem **ipsum salace"""
+    render = parser.SourceParser(source, setting_key="default", body_only=True,
+                                 initial_header_level=None, silent=False)
+
+    assert render == ("""<p>Lorem <a href="#id1">"""
+                      """<span class="problematic" id="id2">**</span></a>ipsum """
+                      """salace</p>\n<div class="system-message" id="id1">\n"""
+                      """<p class="system-message-title">System Message: """
+                      """WARNING/2 (<tt class="docutils">&lt;string&gt;</tt>, """
+                      """line 1); <em><a href="#id2">backlink</a></em></p>"""
+                      """\nInline strong start-string without end-string."""
+                      """</div>\n""")
 
 
 @pytest.mark.parametrize("source_filename,output_filename,writer", [
@@ -69,14 +85,11 @@ def test_parser_file(settings, storageparameters, source_filename, output_filena
         attempted = fp.read()
 
     # Temporary
-    if 'invalid/' in source_filename:
-        parser.build_output(source, output_filepath, setting_key="default",
-                    body_only=True, initial_header_level=None,
-                    silent=False)
+    #parser.build_output(source, output_filepath, setting_key="default",
+                #body_only=True, initial_header_level=None,
+                #silent=False)
 
     render = parser.SourceParser(source, setting_key="default", body_only=True,
                                  initial_header_level=None, silent=False)
 
     assert render == attempted
-
-    #assert 1 == 42
