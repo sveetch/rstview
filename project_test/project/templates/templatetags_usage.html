@@ -1,9 +1,9 @@
-{% extends "skeleton.html" %}
+{% extends "skeleton.html" %}{% comment %}Almost the same as 'rstview/fileview.html' except it uses template tag to render source{% endcomment %}
 
 {% block head_title %}{{ doc_title }} - {{ block.super }}{% endblock %}
 {% load rstview_tags %}
 
 {% block base_content %}
 <h2>{{ doc_title }}</h2>
-{% rst_render doc_source %}
+{% rst_render doc_source silent=False %}
 {% endblock %}

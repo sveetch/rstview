@@ -10,6 +10,10 @@ Introduction
 
 This is a simple `Django`_ application to parse content with `ReStructuredText`_ from `docutils`_ to HTML5 or HTML4 (suitable for XHTML).
 
+.. Warning::
+    Version 0.3.0 have major backward changes, see details in ``HISTORY.rst``
+
+
 Links
 *****
 
