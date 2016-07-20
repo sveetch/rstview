@@ -28,17 +28,19 @@ With ``lineos`` option actived you can highlight some lines :
         :hl_lines: 3,5
 
         My code start here at line 1.
-        
+
         This line is important.
-        
+
         This one too.
 
-This will highlight line 3 and 5, you must supply each line number to highlight.
+This will highlight line 3 and 5, you must supply each line number to
+highlight.
 
-Used command line to generate the Pygments CSS for **Sveetchies-documents** : ::
+Used command line to generate the Pygments CSS for
+**Sveetchies-documents** : ::
 
     pygmentize -P "classprefix=pygments_" -S trac -a ".pygments" -f html > webapp_statics/theme/css/pygments.css
-"""
+"""  # noqa: E501
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name, TextLexer
 from pygments.formatters import HtmlFormatter
@@ -46,14 +48,19 @@ from pygments.formatters import HtmlFormatter
 from docutils import nodes
 from docutils.parsers.rst import directives
 
-from rstview.local_settings import RSTVIEW_PYGMENTS_CONTAINER_CLASSPREFIX, RSTVIEW_PYGMENTS_INLINESTYLES
+from rstview.local_settings import (RSTVIEW_PYGMENTS_CONTAINER_CLASSPREFIX,
+                                    RSTVIEW_PYGMENTS_INLINESTYLES)
+
 
 OPTS = {
-    'linenos': directives.flag, # line number
-    'hl_lines': directives.unchanged_required, # highlight lines with their line number
+    'linenos': directives.flag,  # line number
+    'hl_lines': directives.unchanged_required,  # highlight lines with their
+                                                # line number
 }
 
-def pygments_directive(name, arguments, options, content, lineno, content_offset, block_text, state, state_machine):
+
+def pygments_directive(name, arguments, options, content, lineno,
+                       content_offset, block_text, state, state_machine):
     try:
         lexer = get_lexer_by_name(arguments[0])
     except ValueError:
@@ -71,13 +78,14 @@ def pygments_directive(name, arguments, options, content, lineno, content_offset
         cssclass=RSTVIEW_PYGMENTS_CONTAINER_CLASSPREFIX,
         **opt_kwargs
     )
-    
+
     parsed = highlight(u'\n'.join(content), lexer, formatter)
     return [nodes.raw('', parsed, format='html')]
 
+
 def format_hllines_list(value):
     """
-    Parse line number list, each number must be separated with comma, unvalid 
+    Parse line number list, each number must be separated with comma, unvalid
     number is ignored.
     """
     linelist = []
@@ -89,6 +97,7 @@ def format_hllines_list(value):
         else:
             linelist.append(v)
     return linelist
+
 
 # Directive registration
 pygments_directive.arguments = (1, 0, 1)

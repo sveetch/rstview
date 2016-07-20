@@ -26,7 +26,7 @@ RSTVIEW_PARSER_ENABLE_RAW_INSERTION = False
 # http://docutils.sourceforge.net/docs/user/config.html
 # 'default' should be allways present
 RSTVIEW_PARSER_FILTER_SETTINGS = {
-    'default':{
+    'default': {
         'initial_header_level': 3,
         'file_insertion_enabled': RSTVIEW_PARSER_ENABLE_FILE_INSERTION,
         'raw_enabled': RSTVIEW_PARSER_ENABLE_RAW_INSERTION,

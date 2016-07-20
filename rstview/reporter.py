@@ -31,7 +31,7 @@ class SilentReporter(docutils.utils.Reporter):
     the reporter instance
     """
     def __init__(self, source, report_level, halt_level, stream=None,
-                    debug=0, encoding='ascii', error_handler='replace'):
+                 debug=0, encoding='ascii', error_handler='replace'):
         self.messages = []
         docutils.utils.Reporter.__init__(self, source, report_level,
                                          halt_level, stream, debug, encoding,

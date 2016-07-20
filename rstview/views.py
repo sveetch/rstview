@@ -2,7 +2,6 @@
 """
 ReStructuredText views
 """
-from django.conf import settings
 from django.views.generic import TemplateView
 from django.utils.safestring import mark_safe
 
@@ -48,7 +47,7 @@ class RSTFileView(TemplateView):
 
     def get_source(self, **kwargs):
         """Return file content"""
-        with open(self.doc_path,'r') as fp:
+        with open(self.doc_path, 'r') as fp:
             source = fp.read()
         return source
 

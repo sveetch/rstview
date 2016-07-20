@@ -16,7 +16,7 @@ def rst_render(source, *args, **kwargs):
     Return the parser result from the given string source and settings
 
     {% rst_render SOURCE_STRING [config='default'] [body_only=True] [silent=False] %}
-    """
+    """  # noqa: E501
     config_name = kwargs.get('config', 'default')
     body_only = kwargs.get('body_only', True)
     silent = kwargs.get('silent', False)
