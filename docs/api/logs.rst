@@ -1,2 +1,0 @@
-.. automodule:: boussole.logs
-    :members:

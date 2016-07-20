@@ -1,10 +1,13 @@
 """
+Html5 writer
+============
+
 Original code is from 'Bradley Wright' on Github :
 
 https://github.com/bradleywright/rst-to-semantic-html5
 
-Stealed and modified as i want to keep <section/> and i don't want to take the
-same way than 'rst-to-semantic-html5'
+Stealed and modified because i wanted to keep ``<section/>`` behavior but not
+to follow the same way than 'rst-to-semantic-html5'.
 """
 import re
 

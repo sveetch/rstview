@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-ReStructuredText parser facilities
+Parser facilities
+=================
+
 """
 import copy
 

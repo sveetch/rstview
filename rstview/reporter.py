@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-ReStructuredText parser reporter to validate a source
+Parser reporter
+===============
+
+Custom reporter to validate source without rendering the parser result.
 """
 import docutils
 
@@ -43,14 +46,14 @@ class SilentReporter(docutils.utils.Reporter):
 
 def SourceReporter(data, setting_key="default"):
     """
-    Catch errors and syntax warnings to use them at part of the rendered
-    content.
+    Helper to use silent reporter that is able to validate reStructuredText
+    markup from a source and return errors and warnings from parser.
 
     This effectively parse a source but only to validate it, no parsing render
     is returned.
 
     Return a list of reporter messages if any error have been encountered
-    during parsing. Should be empty if no error has occured.
+    during parsing. List will be empty if no error has occured.
 
     NOTE:
         * Reporter parameters may not be accurate in every situation;

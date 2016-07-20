@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Parser template tags
+Template tags
+=============
+
 """
 from django import template
 from django.utils.safestring import mark_safe
@@ -13,9 +15,28 @@ register = template.Library()
 @register.simple_tag
 def rst_render(source, *args, **kwargs):
     """
-    Return the parser result from the given string source and settings
+    Parse and render given string source using given config set.
 
-    {% rst_render SOURCE_STRING [config='default'] [body_only=True] [silent=False] %}
+    **Usage:** ::
+
+        {% load rstview_tags %}
+
+        {% rst_render SOURCE_STRING [config='default'] [body_only=True] [silent=False] %}
+
+
+    Args:
+        source (string): reStructuredText markup to parse.
+
+    Keyword Arguments:
+        config (string): Name of an option set from
+            ``settings.RSTVIEW_PARSER_FILTER_SETTINGS``.
+        body_only (bool): If ``True``, parser won't include errors and warning
+            in rendered source. Default is ``False``.
+        silent (bool): If ``True``, parser will only return the rendered
+            content, this is the default behavior.
+
+    Returns:
+        string: Rendered source from parser.
     """  # noqa: E501
     config_name = kwargs.get('config', 'default')
     body_only = kwargs.get('body_only', True)

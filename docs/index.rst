@@ -3,13 +3,13 @@
 
 .. _docutils: http://docutils.sourceforge.net/
 .. _Django: https://www.djangoproject.com/
-.. _ReStructuredText: http://docutils.sourceforge.net/rst.html
+.. _reStructuredText: http://docutils.sourceforge.net/rst.html
 .. _Pygments: http://pygments.org/
 
 Welcome to rstview's documentation!
 ===================================
 
-This is a simple `Django`_ application to parse `ReStructuredText`_ markup.
+This is a simple `Django`_ application to parse `reStructuredText`_ markup.
 
 .. Warning::
     Version 0.3.0 have major backward changes, see details in ``HISTORY.rst``
@@ -20,7 +20,7 @@ Features
 * Either **Html4 or Htmls5 writers** available;
 * **Custom reporter** to validate source;
 * **Dedicated view** to make a page from a rst source;
-* **Template tag** to parse `ReStructuredText`_ markup;
+* **Template tag** to parse `reStructuredText`_ markup;
 * Comes with **unittests**;
 
 Links
@@ -43,7 +43,12 @@ User’s Guide
    :maxdepth: 2
 
    install.rst
-   overview.rst
+   library_references/settings.rst
+   library_references/parser.rst
+   library_references/reporter.rst
+   library_references/views.rst
+   library_references/templatetags.rst
+   library_references/html5writer.rst
 
 Developer’s Guide
 *****************
@@ -53,4 +58,3 @@ Developer’s Guide
 
    development.rst
    changelog.rst
-   api/index.rst
