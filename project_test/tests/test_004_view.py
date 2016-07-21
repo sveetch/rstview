@@ -4,7 +4,7 @@ import pytest
 
 from django.core.urlresolvers import reverse
 
-from rstview import parser
+from rstview.views import RstViewInvalidException
 
 
 def test_ping_index(client):
@@ -38,3 +38,9 @@ def test_render_basic(settings, client, urlname, output_filename, writer):
     assert response.content == attempted
 
     #assert 1 == 42
+
+
+def test_empty_doc_path(settings, client):
+    """Empty doc_path class attribute raise an exception"""
+    with pytest.raises(RstViewInvalidException):
+        response = client.get(reverse('sample-view-error'))

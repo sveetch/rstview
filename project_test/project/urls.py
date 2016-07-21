@@ -70,6 +70,11 @@ urlpatterns = [
         doc_title="Invalid sample"
     ), name='sample-view-invalid'),
 
+    # Invalid RSTFileView usage that raise an error 500
+    url(r'^view/empty_doc_path/$', RSTFileView.as_view(
+        doc_title="Empty doc_path"
+    ), name='sample-view-error'),
+
     # Views to render source from template tag
     url(r'^templatetag/basic/$', SourceReaderView.as_view(
         doc_path=getsourcepath("basic/input.rst"),

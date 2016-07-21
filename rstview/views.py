@@ -10,6 +10,13 @@ from django.utils.safestring import mark_safe
 from rstview import parser
 
 
+class RstViewInvalidException(Exception):
+    """
+    Excepion to be raised when RSTFileView usage is incorrect.
+    """
+    pass
+
+
 class RSTFileView(TemplateView):
     """
     Parse and render a reStructuredText file from given path.
@@ -28,9 +35,6 @@ class RSTFileView(TemplateView):
                     doc_title="Basic sample"
                 ), name='sample-view-basic'),
             ]
-
-    Todo:
-        Raise an exception when doc_path is None.
 
     Attributes:
         template_name (string): Template file to render. Default to
@@ -92,9 +96,17 @@ class RSTFileView(TemplateView):
         """
         Return file source from given path in ``RSTFileView.doc_path``.
 
+        Raises:
+            rstview.views.RstViewInvalidException: If ``RSTFileView.doc_path``
+                is not defined.
+
         Returns:
             string: File content.
         """
+        if not self.doc_path:
+            raise RstViewInvalidException(("RSTFileView.doc_path must be "
+                                          "defined"))
+
         with open(self.doc_path, 'r') as fp:
             source = fp.read()
         return source

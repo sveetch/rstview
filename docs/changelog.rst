@@ -18,6 +18,7 @@ Version 0.3.0 - Unreleased
   * Default shipped view template now inherits from ``skeleton.html`` instead of ``base.html``;
   * Template filter ``source_render`` has been dropped in profit of template tag ``rst_render`` which has more options;
   * Dropped old sample ``rstview/rst_sample.rst``;
+  * ``rstview.views.RSTFileView`` now raise an exception if ``doc_path`` attributed is empty;
 
 Version 0.2.1 - 2014/08/17
 --------------------------

@@ -4,6 +4,9 @@ Parser reporter
 ===============
 
 Custom reporter to validate source without rendering the parser result.
+
+This is especially useful to validate submitted reStructuredText content from
+a form.
 """
 import docutils
 
