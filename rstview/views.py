@@ -14,7 +14,7 @@ class RSTFileView(TemplateView):
     """
     Parse and render a reStructuredText file from given path.
 
-    **Usage:**
+    Example:
 
         .. sourcecode:: python
 
@@ -28,6 +28,28 @@ class RSTFileView(TemplateView):
                     doc_title="Basic sample"
                 ), name='sample-view-basic'),
             ]
+
+    Todo:
+        Raise an exception when doc_path is None.
+
+    Attributes:
+        template_name (string): Template file to render. Default to
+            ``rstview/fileview.html``.
+        doc_title (string): Optionnal document title. Default to ``None``.
+        doc_path (string): Path to a reStructuredText file, it is recommended
+            you use an absolute path.
+
+            This is the only required argument you must allways define.
+
+            Default to ``None``.
+        doc_parser_silent (bool): If ``True``, rendered content from parser
+            won't include errors and warning. Default is ``True``.
+        doc_parser_bodyonly (bool): If ``True``, parser will only return the
+            rendered content, this is the default behavior. Default is
+            ``False``.
+        doc_parser_opts_name (string): Name of an option set from
+            ``rstview.settings.RSTVIEW_PARSER_FILTER_SETTINGS``.
+            Default to ``default``.
     """
     #: Default template
     template_name = "rstview/fileview.html"
@@ -37,24 +59,28 @@ class RSTFileView(TemplateView):
     doc_parser_bodyonly = True
     doc_parser_opts_name = 'default'
 
-    def get_document_title(self, **kwargs):
-        """Return document title from ``RSTFileView.doc_title``"""
+    def get_document_title(self):
+        """
+        Get document title from ``RSTFileView.doc_title``
+
+        Returns:
+            string: Document title.
+        """
         return self.doc_title
 
-    def get_parser_opts(self, **kwargs):
+    def get_parser_opts(self):
         """
-        Return parser options from class attributes:
+        Return parser options.
 
-        doc_parser_opts_name
-            Name of an option set from
-            ``rstview.settings.RSTVIEW_PARSER_FILTER_SETTINGS``. Default used
-            name is ``default``.
-        doc_parser_silent
-            If ``True``, parser won't include errors and warning in rendered
-            source. Default is ``False``.
-        doc_parser_bodyonly
-            If ``True``, parser will only return the rendered content, this
-            is the default behavior.
+        Returns:
+            dict: Options to give to ``parser.SourceParser``:
+
+                * ``setting_key``: from class attribute
+                  ``RSTFileView.doc_parser_opts_name``;
+                * ``silent``: from class attribute
+                  ``RSTFileView.doc_parser_silent``;
+                * ``body_only``: from class attribute
+                  ``RSTFileView.doc_parser_bodyonly``;
         """
         return {
             'setting_key': self.doc_parser_opts_name,
@@ -63,21 +89,36 @@ class RSTFileView(TemplateView):
         }
 
     def get_source(self):
-        """Return file source from given path in ``RSTFileView.doc_path``"""
+        """
+        Return file source from given path in ``RSTFileView.doc_path``.
+
+        Returns:
+            string: File content.
+        """
         with open(self.doc_path, 'r') as fp:
             source = fp.read()
         return source
 
-    def render_source(self, source, **kwargs):
-        """Parse given source and return result as safe for django template"""
+    def render_source(self, source):
+        """
+        Parse given source and return result as safe for django template.
+
+        Use ``RSTFileView.get_parser_opts()`` to get and give options to
+        parser.
+
+        Args:
+            source (string): reStructuredText markup to parse.
+
+        Returns:
+            string: Rendered source from parser.
+        """
         output = parser.SourceParser(source, **self.get_parser_opts())
 
         return mark_safe(output)
 
     def get_context_data(self, **kwargs):
         """
-        Template context will be expanded with some document related
-        variables:
+        Expand template context with some document related variables:
 
         doc_title
             The given document title.
@@ -88,14 +129,17 @@ class RSTFileView(TemplateView):
         doc_parser_opts_name
             Name of an option set from
             ``settings.RSTVIEW_PARSER_FILTER_SETTINGS``.
+
+        Returns:
+            dict: Context variables expanded with variables.
         """
         context = super(RSTFileView, self).get_context_data(**kwargs)
 
         source = self.get_source()
-        rendered = self.render_source(source, **kwargs)
+        rendered = self.render_source(source)
 
         context.update({
-            'doc_title': self.get_document_title(**kwargs),
+            'doc_title': self.get_document_title(),
             'doc_source': source,
             'doc_html': rendered,
             'doc_parser_opts_name': self.doc_parser_opts_name,

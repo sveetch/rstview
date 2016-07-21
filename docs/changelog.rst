@@ -7,6 +7,7 @@ Version 0.3.0 - Unreleased
 --------------------------
 
 * Added unittests with Py.test and a dummy project for tests;
+* Added better documentation using Sphinx+Autodoc+Napoleon;
 * Now require for Django==1.8;
 * **Major changes** in modules and structure:
 

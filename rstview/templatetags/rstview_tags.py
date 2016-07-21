@@ -15,13 +15,37 @@ register = template.Library()
 @register.simple_tag
 def rst_render(source, *args, **kwargs):
     """
-    Parse and render given string source using given config set.
+    Parse and render given string source using given parser option set.
 
-    **Usage:** ::
+    Examples:
 
-        {% load rstview_tags %}
+        Basic usage: ::
 
-        {% rst_render SOURCE_STRING [config='default'] [body_only=True] [silent=False] %}
+            {% load rstview_tags %}
+
+            {% rst_render SOURCE_STRING %}
+
+        Using a specific config set: ::
+
+            {% load rstview_tags %}
+
+            {% rst_render SOURCE_STRING config='myconfig' %}
+
+        Muting error and warning from parser: ::
+
+            {% load rstview_tags %}
+
+            {% rst_render SOURCE_STRING silent=False %}
+
+        Everything joined: ::
+
+            {% load rstview_tags %}
+
+            {% rst_render SOURCE_STRING config='myconfig' silent=False %}
+
+        Tag signature: ::
+
+            {% rst_render SOURCE_STRING [config='default'] [silent=False] %}
 
 
     Args:
@@ -30,23 +54,22 @@ def rst_render(source, *args, **kwargs):
     Keyword Arguments:
         config (string): Name of an option set from
             ``settings.RSTVIEW_PARSER_FILTER_SETTINGS``.
-        body_only (bool): If ``True``, parser won't include errors and warning
+        silent (bool): If ``True``, parser won't include errors and warning
             in rendered source. Default is ``False``.
-        silent (bool): If ``True``, parser will only return the rendered
-            content, this is the default behavior.
 
     Returns:
         string: Rendered source from parser.
     """  # noqa: E501
     config_name = kwargs.get('config', 'default')
-    body_only = kwargs.get('body_only', True)
     silent = kwargs.get('silent', False)
 
+    # ``body_only`` is enforced to True else tag would return a dict of values
+    # serialized to a string.
     return mark_safe(
         SourceParser(
             source,
             setting_key=config_name,
-            body_only=body_only,
+            body_only=True,
             silent=silent,
         )
     )

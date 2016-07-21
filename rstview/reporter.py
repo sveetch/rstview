@@ -12,9 +12,14 @@ from django.conf import settings
 
 def format_parsing_errors(error):
     """
-    Format an error line returned by reporter
+    Format an error line returned by reporter.
 
-    NOTE: Previously named ``parser.map_parsing_errors``
+    Args:
+        error (tuple): Message error returned by reporter contain four
+            elements: error code, message, content and source.
+
+    Returns:
+        string: Formatted message.
     """
     code, message, content, source = error
 
@@ -28,10 +33,10 @@ def format_parsing_errors(error):
 
 class SilentReporter(docutils.utils.Reporter):
     """
-    Silent reporter
+    Silent reporter catch and memorize all warnings and errors so they can be
+    used subsequently through the reporter instance.
 
-    All warnings and errors will be stored and can be used subsequently through
-    the reporter instance
+    Attempt the same arguments than inherited ``docutils.utils.Reporter``.
     """
     def __init__(self, source, report_level, halt_level, stream=None,
                  debug=0, encoding='ascii', error_handler='replace'):
@@ -44,7 +49,7 @@ class SilentReporter(docutils.utils.Reporter):
         self.messages.append((level, message, children, kwargs))
 
 
-def SourceReporter(data, setting_key="default"):
+def SourceReporter(source, setting_key="default"):
     """
     Helper to use silent reporter that is able to validate reStructuredText
     markup from a source and return errors and warnings from parser.
@@ -52,15 +57,22 @@ def SourceReporter(data, setting_key="default"):
     This effectively parse a source but only to validate it, no parsing render
     is returned.
 
-    Return a list of reporter messages if any error have been encountered
-    during parsing. List will be empty if no error has occured.
+    Todo:
+        This stop parsing since first occured errors, would be nicer to
+        continue parsing to return every errors in one time. (Third party
+        tool using reporter would appreciate this for better user experience
+        to be able to fix every error in one shot);
 
-    NOTE:
-        * Reporter parameters may not be accurate in every situation;
-        * Flaw: Stop parsing since first occured errors, would be nicer to
-          continue parsing to return every errors in one time. (Third party
-          tool using reporter would appreciate this for better user experience
-          to be able to fix every error in one shot);
+    Args:
+        source (string): reStructuredText source to parse.
+
+    Keyword Arguments:
+        setting_key (string): Name of an option set from
+            ``settings.RSTVIEW_PARSER_FILTER_SETTINGS``.
+
+    Returns:
+        list: Reporter messages if any error have been encountered during
+        parsing.
     """
     source_path = None
 
@@ -84,7 +96,7 @@ def SourceReporter(data, setting_key="default"):
     document = docutils.nodes.document(opts, reporter, source=source_path)
     document.note_source(source_path, -1)
     try:
-        parser.parse(data, document)
+        parser.parse(source, document)
     except AttributeError:
         pass
     except TypeError:

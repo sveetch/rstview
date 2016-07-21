@@ -41,9 +41,9 @@ class SourceReaderView(RSTFileView):
         context = super(RSTFileView, self).get_context_data(**kwargs)
 
         context.update({
-            'doc_title': self.get_document_title(**kwargs),
+            'doc_title': self.get_document_title(),
             'doc_path': self.doc_path,
-            'doc_source': self.get_source(**kwargs),
+            'doc_source': self.get_source(),
         })
         return context
 
