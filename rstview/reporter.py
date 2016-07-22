@@ -8,7 +8,10 @@ Custom reporter to validate source without rendering the parser result.
 This is especially useful to validate submitted reStructuredText content from
 a form.
 """
-import docutils
+from docutils.utils import Reporter
+from docutils.parsers.rst import Parser
+from docutils.frontend import OptionParser
+from docutils.nodes import document as docutils_document
 
 from django.conf import settings
 
@@ -34,7 +37,7 @@ def format_parsing_errors(error):
     )
 
 
-class SilentReporter(docutils.utils.Reporter):
+class SilentReporter(Reporter):
     """
     Silent reporter catch and memorize all warnings and errors so they can be
     used subsequently through the reporter instance.
@@ -44,9 +47,9 @@ class SilentReporter(docutils.utils.Reporter):
     def __init__(self, source, report_level, halt_level, stream=None,
                  debug=0, encoding='ascii', error_handler='replace'):
         self.messages = []
-        docutils.utils.Reporter.__init__(self, source, report_level,
-                                         halt_level, stream, debug, encoding,
-                                         error_handler)
+        Reporter.__init__(self, source, report_level,
+                          halt_level, stream, debug, encoding,
+                          error_handler)
 
     def system_message(self, level, message, *children, **kwargs):
         self.messages.append((level, message, children, kwargs))
@@ -77,11 +80,12 @@ def SourceReporter(source, setting_key="default"):
         list: Reporter messages if any error have been encountered during
         parsing.
     """
+    # We don't need source_path features/behaviors
     source_path = None
 
-    parser = docutils.parsers.rst.Parser()
+    parser = Parser()
 
-    opts = docutils.frontend.OptionParser().get_default_values()
+    opts = OptionParser().get_default_values()
     opts.tab_width = 4
     opts.pep_references = None
     opts.rfc_references = None
@@ -96,7 +100,7 @@ def SourceReporter(source, setting_key="default"):
         error_handler=opts.error_encoding_error_handler
     )
 
-    document = docutils.nodes.document(opts, reporter, source=source_path)
+    document = docutils_document(opts, reporter, source=source_path)
     document.note_source(source_path, -1)
     try:
         parser.parse(source, document)

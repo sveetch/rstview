@@ -48,3 +48,18 @@ def test_validate_invalid_syntax_i18n(settings):
     assert map(reporter.format_parsing_errors, errors) == [
         u'Line é 1 : Inline strong start-string without end-string.',
     ]
+
+
+#def test_validate_invalid_multiple(settings):
+    #"""
+    #Multiple error on the same document
+    #"""
+    #input_filepath = os.path.join(settings.TESTS_FIXTURES_DIR, "invalid/input.rst")
+    #with open(input_filepath, 'r') as fp:
+        #source = fp.read()
+
+    #errors = reporter.SourceReporter(source)
+
+    #assert errors == []
+
+    #assert 1 == 42
