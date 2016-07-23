@@ -4,6 +4,7 @@ Views
 =====
 
 """
+from django.conf import settings
 from django.views.generic import TemplateView
 from django.utils.safestring import mark_safe
 
@@ -46,8 +47,11 @@ class RSTFileView(TemplateView):
             This is the only required argument you must allways define.
 
             Default to ``None``.
-        doc_parser_silent (bool): If ``True``, rendered content from parser
-            won't include errors and warning. Default is ``True``.
+        doc_parser_class (object): A parser class from ``rstview.parser``.
+            Default is ``rstview.parser.RstExtendedRenderer``.
+        doc_parser_silent (bool): Enable to override default *silent mode*
+            behavior. Default value is the same as
+            ``settings.RSTVIEW_PARSER_SILENT``.
         doc_parser_bodyonly (bool): If ``True``, parser will only return the
             rendered content, this is the default behavior. Default is
             ``False``.
@@ -59,7 +63,8 @@ class RSTFileView(TemplateView):
     template_name = "rstview/fileview.html"
     doc_title = None
     doc_path = None
-    doc_parser_silent = False
+    doc_parser_class = parser.RstExtendedRenderer
+    doc_parser_silent = settings.RSTVIEW_PARSER_SILENT
     doc_parser_bodyonly = True
     doc_parser_opts_name = 'default'
 
@@ -124,7 +129,8 @@ class RSTFileView(TemplateView):
         Returns:
             string: Rendered source from parser.
         """
-        output = parser.SourceParser(source, **self.get_parser_opts())
+        parser = self.doc_parser_class()
+        output = parser.parse(source, **self.get_parser_opts())
 
         return mark_safe(output)
 

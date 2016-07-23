@@ -17,9 +17,11 @@ import copy
 from django.conf import settings
 from django.utils.encoding import smart_str
 
+from docutils import utils
+from docutils.utils import error_reporting
 from docutils.core import publish_parts
 
-from rstview import html5writer
+from rstview.html5writer import SemanticHTML5Writer
 
 
 # Safely try to load and register directive if Pygments is installed
@@ -29,85 +31,230 @@ except ImportError:
     pass
 
 
-def get_functional_settings(setting_key, initial_header_level=None,
-                            silent=True):
+# Store some methods we may need to monkeypatch during parsing (sic), so we
+# mirror it to safely turn back to them.
+_original_docutils_system_message = utils.Reporter.system_message
+_original_docutils_output_write = error_reporting.ErrorOutput.write
+
+
+class RstBasicRenderer(object):
     """
-    From given options in keyword arguments, will modify selected option
-    set from given ``setting_key``.
+    Basic interface around docutils to parse and render reStructuredText markup.
 
-    Args:
-        setting_key (string): Name of an option set from
-            ``settings.RSTVIEW_PARSER_FILTER_SETTINGS``.
-
-    Keyword Arguments:
-        initial_header_level (string): Title level available to start from. If
-            ``2`` biggest title will be ``h2``, if ``3`` it will be ``h3``,
-            etc..
-        silent (string): If ``True``, rendered content won't include errors and
-            warning. Default is ``True``.
-
-    Returns:
-        dict: Options to give to Docutils parser.
+    This follows the legacy behaviors of docutils parser.
     """
-    parser_settings = copy.deepcopy(
-        settings.RSTVIEW_PARSER_FILTER_SETTINGS[setting_key]
-    )
-    parser_settings.update(settings.RSTVIEW_PARSER_SECURITY)
+    def __init__(self, *args, **kwargs):
+        pass
 
-    if silent:
-        parser_settings.update({'report_level': 5})
+    def get_options(self, name, initial_header_level=None,
+                    silent=settings.RSTVIEW_PARSER_SILENT):
+        """
+        Load the given option set name and possibly update some option from
+        given keyword arguments.
 
-    if initial_header_level:
-        parser_settings['initial_header_level'] = initial_header_level
+        Args:
+            name (string): Name of an option set from
+                ``settings.RSTVIEW_PARSER_FILTER_SETTINGS``.
 
-    return parser_settings
+        Keyword Arguments:
+            initial_header (int): To modify option ``initial_header_level``.
+            silent (string): If ``True``, will push the parser reporter level
+                to the lowest verbosiy so errors and warnings are ignored.
+                Default value is the same as
+                ``settings.RSTVIEW_PARSER_SILENT``.
+
+        Returns:
+            dict: Options to give to Docutils parser.
+        """
+        # Avoid to tamper settings using a deepcopy
+        parser_settings = copy.deepcopy(
+            settings.RSTVIEW_PARSER_FILTER_SETTINGS[name]
+        )
+        parser_settings.update(settings.RSTVIEW_PARSER_SECURITY)
+
+        if silent:
+            parser_settings.update({'report_level': 5})
+
+        if initial_header_level:
+            parser_settings['initial_header_level'] = initial_header_level
+
+        return parser_settings
 
 
-def SourceParser(source, setting_key="default", body_only=True,
-                 initial_header_level=None, silent=True):
+    def get_writer_option(self):
+        """
+        Get the writer option for parser config
+
+        Returns:
+            dict: A dict containing the right writer option name and value.
+        """
+        if settings.RSTVIEW_PARSER_WRITER == 'html5':
+            return {
+                'writer': SemanticHTML5Writer(),
+            }
+        else:
+            return {
+                'writer_name': "html4css1",
+            }
+
+    def parse(self, source, setting_key="default", body_only=True, **kwargs):
+        """
+        Parse reStructuredText source with given options.
+
+        Args:
+            source (string): reStructuredText source to parse.
+            **kwargs: Arbitrary keyword arguments to give as options to
+                ``RstBasicRenderer.get_options()``.
+
+        Keyword Arguments:
+            setting_key (string): Name of option set to use from
+                ``settings.RSTVIEW_PARSER_FILTER_SETTINGS``.
+            body_only (string): If ``True``, parser will only return the rendered
+                content else it will return the full dict from Docutils parser.
+                This dict contains many datas about parsing. Default is ``True``.
+
+        Returns:
+            string or dict: Depending from ``body_only``, it will be a rendered
+            content as a string or a dict containing datas about parsing (rendered
+            content, styles, messages, title, etc..).
+        """
+        opts = {
+            'source': smart_str(source),
+            'settings_overrides': self.get_options(setting_key, **kwargs),
+        }
+
+        # Switch between html4/html5 writer
+        opts.update(self.get_writer_option())
+
+        parts = publish_parts(**opts)
+
+        if body_only:
+            return parts['fragment']
+
+        return parts
+
+    def format_parsing_error(self, error):
+        """
+        Format error message datas to a message line.
+
+        Args:
+            error (tuple): Message error returned by reporter contain four
+                elements: line number, error code and message.
+
+        Returns:
+            string: Formatted message.
+        """
+        lineno, code, message = error
+
+        return settings.RSTVIEW_ERROR_TEMPLATE.format(
+            code=code,
+            lineno=lineno,
+            message=message
+        )
+
+
+class RstExtendedRenderer(RstBasicRenderer):
     """
-    Parse reStructuredText source with given options.
+    Extended interface for next generation usage
 
-    Args:
-        source (string): reStructuredText source to parse.
+    This promotes the extended behaviors:
 
-    Keyword Arguments:
-        setting_key (string): Name of an option set from
-            ``settings.RSTVIEW_PARSER_FILTER_SETTINGS``.
-        body_only (string): If ``True``, parser will only return the rendered
-            content else it will return the full dict from Docutils parser.
-            This dict contains many datas about parsing. Default is ``True``.
-        silent (string): If ``True``, rendered content won't include errors and
-            warning. Default is ``True``.
-        initial_header_level (string): Title level available to start from. If
-            ``2`` biggest title will be ``h2``, if ``3`` it will be ``h3``,
-            etc.. This overrides the given level from option set.
+    * Parser can be used to validate markup;
+    * Nothing is printed out on standard output;
 
-    Returns:
-        string or dict: Depending from ``body_only``, it will be a rendered
-        content as a string or a dict containing datas about parsing (rendered
-        content, styles, messages, title, etc..).
+    **docutils** parser is a bit touchy to use programatically, so we need to
+    apply some monkey patchs.
     """
-    parser_settings = get_functional_settings(setting_key,
-                                              initial_header_level,
-                                              silent)
+    def is_valid(self):
+        """
+        Only to be used after parsing
 
-    opts = {
-        'source': smart_str(source),
-        'settings_overrides': parser_settings,
-    }
+        Returns:
+            bool: True if no errors, else False
+        """
+        return not(self.messages)
 
-    # Switch between html4/html5 writer
-    if settings.RSTVIEW_PARSER_WRITER == 'html5':
-        opts['writer'] = html5writer.SemanticHTML5Writer()
-    else:
-        opts['writer_name'] = "html4css1"
+    def format_parsing_error(self, error):
+        """
+        Format error message datas to a message line.
 
-    parts = publish_parts(**opts)
+        Args:
+            error (tuple): Message error returned by reporter contain four
+                elements: line number, error code and message.
 
-    if body_only:
-        return parts['fragment']
-    return parts
+        Returns:
+            string: Formatted message.
+        """
+        lineno, code, message = error
+
+        return settings.RSTVIEW_ERROR_TEMPLATE.format(
+            code=code,
+            lineno=lineno,
+            message=message
+        )
+
+    def parse(self, *args, **kwargs):
+        """
+        Proceed to parsing for validation
+
+        We apply *monkey patchs* on two docutils methods, parse source then
+        *unmonkey*.
+
+        Everytime validation is processed, messages are reseted so it should
+        be safe enough to use the RstExtendedRenderer instance for many documents.
+
+        Once done you can access raw error messages datas from instance
+        attribute ``messages`` or use ``RstExtendedRenderer.get_messages`` to
+        have formatted message lines.
+
+        Returns:
+            string or dict: Depending from ``body_only``, it will be a rendered
+            content as a string or a dict containing datas about parsing (rendered
+            content, styles, messages, title, etc..).
+        """
+        # Ensure the list is cleaned before each validation
+        self.messages = []
+
+        def system_message(instance, level, message, *children, **kwargs):
+            # Instance original method else nodes are bugged
+            result = _original_docutils_system_message(instance, level,
+                                                       message, *children,
+                                                       **kwargs)
+            # Store any warnings/erros in a global list so they can be used out
+            # of rendered document
+            if level >= instance.WARNING_LEVEL:
+                self.messages.append((kwargs.get('line', None), level, message))
+
+            return result
+
+        def dummy_write(instance, data):
+            """
+            Don't write anything on output stream
+            """
+            pass
+
+        # Monkeypatch docutils for simple errors/warnings output support
+        utils.Reporter.system_message = system_message
+        # Monkeypatch docutils for real silent errors/warnings (no print on std
+        # output)
+        error_reporting.ErrorOutput.write = dummy_write
+
+        result = super(RstExtendedRenderer, self).parse(*args, **kwargs)
+
+        # Unmonkey
+        utils.Reporter.system_message = _original_docutils_system_message
+        error_reporting.ErrorOutput.write = _original_docutils_output_write
+
+        return result
+
+    def get_messages(self):
+        """
+        Get a list of formatted messages
+
+        Returns:
+            A list of messages.
+        """
+        return map(self.format_parsing_error, self.messages)
 
 
 def build_output(source, output_filepath, **kwargs):
@@ -121,7 +268,7 @@ def build_output(source, output_filepath, **kwargs):
         **kwargs: Arbitrary keyword arguments to give as options to
             ``rstview.parser.SourceParser``.
     """
-    render = SourceParser(source, **kwargs)
+    render = RstBasicRenderer().parse(source, **kwargs)
 
     with open(output_filepath, 'w') as fp:
         fp.write(render)

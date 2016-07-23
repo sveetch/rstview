@@ -5,6 +5,7 @@ import os
 import pytest
 
 import rstview
+from rstview import parser
 
 class FixturesStorageParameters(object):
     """Mixin containing some basic settings"""
@@ -38,4 +39,3 @@ def storageparameters():
     """Initialize and return parameters storage object (mostly paths) for
        fixtures (scope at module level)"""
     return FixturesStorageParameters()
-

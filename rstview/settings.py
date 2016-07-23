@@ -9,12 +9,19 @@ Default settings rstviews needs. You can override them in your project
 settings file.
 
 """  # noqa: E501
-#: Some docutils security settings you should not change.
+#: Some parse options you should not change.
 #: They're automatically appended to each used parser options set.
 RSTVIEW_PARSER_SECURITY = {
-    'halt_level': 6,
-    'enable_exit': 0
+    'halt_level': 6,  # Dont halt script execution even if errors
+    'enable_exit': 0  # Disable script exit when halt or finished
 }
+
+#: Default value for silent mode on parser
+#:
+#: Silent means errors and warnings are totally ignored in opposed unsilent
+#: where errors and warnings can be inserted into rendered source and also
+#: push to standard output.
+RSTVIEW_PARSER_SILENT = False
 
 #: Locale code for document. Docutils parser don't support the
 #: common pattern ``xx_XX``, only the first part ``xx``.
