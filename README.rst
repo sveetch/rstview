@@ -6,7 +6,7 @@
 rstview
 ===================================
 
-This is a simple `Django`_ application to parse `reStructuredText`_ markup.
+This is a simple `Django`_ application around `docutils`_ to parse `reStructuredText`_ markup.
 
 .. Warning::
     Version 0.3.0 have major backward changes, see details in ``HISTORY.rst``
@@ -32,4 +32,3 @@ Requires
 
 * `docutils`_ >= 0.7;
 * Optionnaly (but recommended) you can install `Pygments`_ >= 1.2.x to have highlighted syntax in your *sourcecode* blocks;
-

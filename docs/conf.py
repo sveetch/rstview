@@ -18,6 +18,11 @@ import os
 # Get the module version
 from rstview import __version__ as rstview_version
 
+# Push a dummy settings file required by Django
+sys.path.append(os.path.join(os.path.dirname(__file__), '.'))
+os.environ['DJANGO_SETTINGS_MODULE'] = 'django_settings'
+from django.conf import settings
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.

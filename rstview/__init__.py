@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Simple Django application to parse content with ReStructuredText from docutils
+Simple Django application around docutils to parse reStructuredText markup
 """
-__version__ = '0.2.1'
+__version__ = '0.3.0'

@@ -11,9 +11,7 @@ Version 0.3.0 - Unreleased
 * Now require for Django==1.8;
 * **Major changes** in modules and structure:
 
-  * ``rstview.parser.SilentReporter`` has moved to ``rstview.reporter.SilentReporter``;
-  * ``rstview.parser.SourceReporter`` has moved to ``rstview.reporter.SourceReporter``;
-  * ``rstview.parser.map_parsing_errors`` has moved to ``rstview.reporter.format_parsing_errors``;
+  * ``rstview.parser`` has been refactored to contain everything in two classes;
   * Improved view ``rstview.views.RSTFileView`` to be more flexible;
   * Default shipped view template now inherits from ``skeleton.html`` instead of ``base.html``;
   * Template filter ``source_render`` has been dropped in profit of template tag ``rst_render`` which has more options;

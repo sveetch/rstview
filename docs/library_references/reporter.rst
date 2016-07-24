@@ -1,2 +1,0 @@
-.. automodule:: rstview.reporter
-    :members:

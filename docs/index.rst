@@ -9,7 +9,7 @@
 Welcome to rstview's documentation!
 ===================================
 
-This is a simple `Django`_ application to parse `reStructuredText`_ markup.
+This is a simple `Django`_ application around `docutils`_ to parse `reStructuredText`_ markup.
 
 .. Warning::
     Version 0.3.0 have major backward changes, see details in ``HISTORY.rst``
@@ -45,7 +45,6 @@ User’s Guide
    install.rst
    library_references/settings.rst
    library_references/parser.rst
-   library_references/reporter.rst
    library_references/views.rst
    library_references/templatetags.rst
    library_references/html5writer.rst

@@ -18,7 +18,7 @@ RSTVIEW_PARSER_SECURITY = {
 
 #: Default value for silent mode on parser
 #:
-#: Silent means errors and warnings are totally ignored in opposed unsilent
+#: Silent means errors and warnings are totally ignored in opposed to un-silent
 #: where errors and warnings can be inserted into rendered source and also
 #: push to standard output.
 RSTVIEW_PARSER_SILENT = False

@@ -3,7 +3,7 @@
 Pygments ReStructuredText directive
 
 To use it, adjust the options below and copy the code into a module
-that you import on initialization.  The code then automatically
+that you import on initialization.  The code will automatically
 registers a ``sourcecode`` directive that you can use instead of
 normal code blocks like this::
 

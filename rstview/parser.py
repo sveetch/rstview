@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-Parser helpers
-==============
+Parser
+======
 
-Some helpers around Docutils parser to easily parse reStructuredText markup
+Some helpers around **docutils** parser to easily parse reStructuredText markup
 with some options.
 
 Note:
     This module try to load the pygment directive if available, so you don't
     need to load it from your code if you want to use Pygment to highlight code
     blocks.
-
 """
 import copy
 
@@ -39,9 +38,22 @@ _original_docutils_output_write = error_reporting.ErrorOutput.write
 
 class RstBasicRenderer(object):
     """
-    Basic interface around docutils to parse and render reStructuredText markup.
+    Basic interface around **docutils** to parse and render reStructuredText
+    markup.
 
-    This follows the legacy behaviors of docutils parser.
+    This follows the legacy behaviors of **docutils** parser, that means:
+
+    * Parser errors and warnings are inserted inside the rendered source;
+    * Errors and warnings are pushed to the standard output;
+
+    Example:
+        .. sourcecode:: python
+            :linenos:
+
+            >>> from rstview.parser import RstBasicRenderer
+            >>> renderer = RstBasicRenderer()
+            >>> renderer.parse("Lorem **ipsum** salace")
+            <p>Lorem <strong>ipsum</strong> salace</p>
     """
     def __init__(self, *args, **kwargs):
         pass
@@ -80,10 +92,10 @@ class RstBasicRenderer(object):
 
         return parser_settings
 
-
     def get_writer_option(self):
         """
-        Get the writer option for parser config
+        Get the writer option for parser config depending it's ``html4`` or
+        ``html5``.
 
         Returns:
             dict: A dict containing the right writer option name and value.
@@ -109,14 +121,15 @@ class RstBasicRenderer(object):
         Keyword Arguments:
             setting_key (string): Name of option set to use from
                 ``settings.RSTVIEW_PARSER_FILTER_SETTINGS``.
-            body_only (string): If ``True``, parser will only return the rendered
-                content else it will return the full dict from Docutils parser.
-                This dict contains many datas about parsing. Default is ``True``.
+            body_only (string): If ``True``, parser will only return the
+                rendered content else it will return the full dict from
+                Docutils parser. This dict contains many datas about parsing.
+                Default is ``True``.
 
         Returns:
             string or dict: Depending from ``body_only``, it will be a rendered
-            content as a string or a dict containing datas about parsing (rendered
-            content, styles, messages, title, etc..).
+            content as a string or a dict containing datas about parsing
+            (rendered content, styles, messages, title, etc..).
         """
         opts = {
             'source': smart_str(source),
@@ -133,25 +146,6 @@ class RstBasicRenderer(object):
 
         return parts
 
-    def format_parsing_error(self, error):
-        """
-        Format error message datas to a message line.
-
-        Args:
-            error (tuple): Message error returned by reporter contain four
-                elements: line number, error code and message.
-
-        Returns:
-            string: Formatted message.
-        """
-        lineno, code, message = error
-
-        return settings.RSTVIEW_ERROR_TEMPLATE.format(
-            code=code,
-            lineno=lineno,
-            message=message
-        )
-
 
 class RstExtendedRenderer(RstBasicRenderer):
     """
@@ -159,11 +153,24 @@ class RstExtendedRenderer(RstBasicRenderer):
 
     This promotes the extended behaviors:
 
-    * Parser can be used to validate markup;
+    * Parser can be used to validate markup out of rendered document;
     * Nothing is printed out on standard output;
 
     **docutils** parser is a bit touchy to use programatically, so we need to
-    apply some monkey patchs.
+    apply some monkey patchs before and after parsing.
+
+    Example:
+        .. sourcecode:: python
+            :linenos:
+
+            >>> from rstview.parser import RstExtendedRenderer
+            >>> renderer = RstExtendedRenderer()
+            >>> renderer.parse("Lorem **ipsum** salace")
+            <p>Lorem <strong>ipsum</strong> salace</p>
+            >>> rendered.is_valid()
+            True
+            >>> rendered.get_messages()
+            []
     """
     def is_valid(self):
         """
@@ -197,11 +204,12 @@ class RstExtendedRenderer(RstBasicRenderer):
         """
         Proceed to parsing for validation
 
-        We apply *monkey patchs* on two docutils methods, parse source then
+        We apply *monkey patchs* on two **docutils** methods, parse source then
         *unmonkey*.
 
         Everytime validation is processed, messages are reseted so it should
-        be safe enough to use the RstExtendedRenderer instance for many documents.
+        be safe enough to use the RstExtendedRenderer instance for many
+        documents.
 
         Once done you can access raw error messages datas from instance
         attribute ``messages`` or use ``RstExtendedRenderer.get_messages`` to
@@ -209,8 +217,8 @@ class RstExtendedRenderer(RstBasicRenderer):
 
         Returns:
             string or dict: Depending from ``body_only``, it will be a rendered
-            content as a string or a dict containing datas about parsing (rendered
-            content, styles, messages, title, etc..).
+            content as a string or a dict containing datas about parsing
+            (rendered content, styles, messages, title, etc..).
         """
         # Ensure the list is cleaned before each validation
         self.messages = []
@@ -223,7 +231,11 @@ class RstExtendedRenderer(RstBasicRenderer):
             # Store any warnings/erros in a global list so they can be used out
             # of rendered document
             if level >= instance.WARNING_LEVEL:
-                self.messages.append((kwargs.get('line', None), level, message))
+                self.messages.append((
+                    kwargs.get('line', None),
+                    level,
+                    message
+                ))
 
             return result
 
