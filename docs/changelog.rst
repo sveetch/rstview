@@ -3,7 +3,7 @@
 Changelog
 =========
 
-Version 0.3.0 - Unreleased
+Version 0.3.0 - 2016/07/24
 --------------------------
 
 * Added unittests with Py.test and a dummy project for tests;
