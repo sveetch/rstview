@@ -9,7 +9,12 @@ setup(
     author_email='sveetch@gmail.com',
     url='http://pypi.python.org/pypi/rstview',
     license='MIT',
-    packages=find_packages(),
+    packages=[
+        'rstview',
+    ],
+    package_dir={
+        'rstview': 'rstview',
+    },
     classifiers=[
         'Programming Language :: Python',
         'License :: OSI Approved :: MIT License',

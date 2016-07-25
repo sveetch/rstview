@@ -28,6 +28,6 @@ First ensure you have `pip`_ and `virtualenv`_ installed, then in your console t
     cd rstview-dev
     virtualenv --system-site-packages .
     source bin/activate
-    pip install -r https://raw.githubusercontent.com/sveetch/rstview/master/dev_requirements.txt
+    pip install -r https://raw.githubusercontent.com/sveetch/rstview/master/requirements/dev.txt
 
 rstview will be installed in editable mode from the last commit on master branch.
