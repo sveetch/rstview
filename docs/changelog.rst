@@ -3,6 +3,18 @@
 Changelog
 =========
 
+Version 0.3.2 - 2016/07/26
+--------------------------
+
+* Fixed tests settings and conftest so tests can run correctly through tox;
+* Added Django 1.7, Django 1.8, Django 1.9 support since these versions have passed tests through tox;
+
+
+Version 0.3.1 - 2016/07/26
+--------------------------
+
+* First try to use tox for tests;
+
 Version 0.3.0 - 2016/07/24
 --------------------------
 

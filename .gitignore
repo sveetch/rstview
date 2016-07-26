@@ -13,6 +13,7 @@ dist/*
 *.pyo
 
 #tests
+.tox
 .cache
 __pycache__
 project_test/db.sqlite3

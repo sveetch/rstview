@@ -12,7 +12,7 @@ Welcome to rstview's documentation!
 This is a simple `Django`_ application around `docutils`_ to parse `reStructuredText`_ markup.
 
 .. Warning::
-    Version 0.3.0 have major backward changes, see details in ``HISTORY.rst``
+    Version 0.3.0 have major backward changes, see details in documentation changelogs.
 
 Features
 ********
@@ -30,11 +30,12 @@ Links
 * Download its `PyPi package <https://pypi.python.org/pypi/rstview>`_;
 * Clone it on its `Github repository <https://github.com/sveetch/rstview>`_;
 
-Requires
-********
+Dependancies
+************
 
+* `Django`_ >= 1.7;
 * `docutils`_ >= 0.7;
-* Optionnaly (but recommended) you can install `Pygments`_ >= 1.2.x to have highlighted syntax in your *sourcecode* blocks;
+* Optionnaly (but recommended): `Pygments`_ >= 1.2.x to have highlighted syntax in your *sourcecode* blocks;
 
 User’s Guide
 ************

@@ -2,4 +2,4 @@
 """
 Simple Django application around docutils to parse reStructuredText markup
 """
-__version__ = '0.3.1'
+__version__ = '0.3.2'

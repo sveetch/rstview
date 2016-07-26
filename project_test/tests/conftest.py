@@ -22,7 +22,7 @@ class FixturesStorageParameters(object):
             )
         )
         self.fixtures_path = os.path.join(
-            self.tests_path,
+            self.tests_dir,
             self.fixtures_dir
         )
 

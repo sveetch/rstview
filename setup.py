@@ -9,12 +9,7 @@ setup(
     author_email='sveetch@gmail.com',
     url='http://pypi.python.org/pypi/rstview',
     license='MIT',
-    packages=[
-        'rstview',
-    ],
-    package_dir={
-        'rstview': 'rstview',
-    },
+    packages=find_packages(),
     classifiers=[
         'Programming Language :: Python',
         'License :: OSI Approved :: MIT License',
@@ -22,7 +17,9 @@ setup(
         "Development Status :: 5 - Production/Stable",
         'Environment :: Web Environment',
         'Framework :: Django',
+        "Framework :: Django :: 1.7",
         "Framework :: Django :: 1.8",
+        "Framework :: Django :: 1.9",
         'Intended Audience :: Developers',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
@@ -31,7 +28,7 @@ setup(
     ],
     install_requires=[
         'docutils>=0.7',
-        'Django>=1.8,<1.9',
+        'Django>=1.7,<1.10',
     ],
     include_package_data=True,
     zip_safe=False
