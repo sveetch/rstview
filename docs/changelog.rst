@@ -3,6 +3,15 @@
 Changelog
 =========
 
+Version 0.4.0 - Unreleased
+--------------------------
+
+* Added a configuration registry and use it instead of directly getting config from ``settings.RSTVIEW_PARSER_FILTER_SETTINGS``;
+* Now configurations can be added/updated/removed per application through registry interface;
+* Now ``settings.RSTVIEW_PARSER_FILTER_SETTINGS`` is only used as a startup configuration sets that are not needed to be tampered anymore;
+* Added discovering methods to discover configuration files from enabled applications;
+* Added tests for registry;
+
 Version 0.3.2 - 2016/07/26
 --------------------------
 

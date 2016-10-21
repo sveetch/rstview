@@ -21,6 +21,7 @@ from docutils.utils import error_reporting
 from docutils.core import publish_parts
 
 from rstview.html5writer import SemanticHTML5Writer
+from rstview.registry import rstview_registry
 
 
 # Safely try to load and register directive if Pygments is installed
@@ -61,12 +62,11 @@ class RstBasicRenderer(object):
     def get_options(self, name, initial_header_level=None,
                     silent=settings.RSTVIEW_PARSER_SILENT):
         """
-        Load the given option set name and possibly update some option from
+        Load the given configuration and possibly update parameters with
         given keyword arguments.
 
         Args:
-            name (string): Name of an option set from
-                ``settings.RSTVIEW_PARSER_FILTER_SETTINGS``.
+            name (string): Configuration name from registered configurations.
 
         Keyword Arguments:
             initial_header (int): To modify option ``initial_header_level``.
@@ -80,7 +80,7 @@ class RstBasicRenderer(object):
         """
         # Avoid to tamper settings using a deepcopy
         parser_settings = copy.deepcopy(
-            settings.RSTVIEW_PARSER_FILTER_SETTINGS[name]
+            rstview_registry.get_parameters(name)
         )
         parser_settings.update(settings.RSTVIEW_PARSER_SECURITY)
 
@@ -119,8 +119,8 @@ class RstBasicRenderer(object):
                 ``RstBasicRenderer.get_options()``.
 
         Keyword Arguments:
-            setting_key (string): Name of option set to use from
-                ``settings.RSTVIEW_PARSER_FILTER_SETTINGS``.
+            setting_key (string): Configuration name from registered
+                configurations.
             body_only (string): If ``True``, parser will only return the
                 rendered content else it will return the full dict from
                 Docutils parser. This dict contains many datas about parsing.
@@ -149,9 +149,9 @@ class RstBasicRenderer(object):
 
 class RstExtendedRenderer(RstBasicRenderer):
     """
-    Extended interface for next generation usage
+    Extended interface for next generation usage.
 
-    This promotes the extended behaviors:
+    This promotes some extended behaviors:
 
     * Parser can be used to validate markup out of rendered document;
     * Nothing is printed out on standard output;

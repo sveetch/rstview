@@ -2,8 +2,8 @@
 """
 .. _Docutils Configuration: http://docutils.sourceforge.net/docs/user/config.html
 
-App default settings
-====================
+Settings
+========
 
 Default settings rstviews needs. You can override them in your project
 settings file.
@@ -36,11 +36,16 @@ RSTVIEW_PARSER_ENABLE_FILE_INSERTION = False
 #: Enable unsafe raw insertion directives, enable it at your own risk.
 RSTVIEW_PARSER_ENABLE_RAW_INSERTION = False
 
-#: Available parser options sets.
+#: Default parser configurations used with autodiscovering for initial
+#: configuration registry.
 #:
-#: These are options only for docutils parser, see `Docutils Configuration`_.
+#: Configuration parameters are for docutils parser, see
+#: `Docutils Configuration`_.
 #:
 #: Default entry ``default`` must allways be present.
+#:
+#: Avoid to tamper this settings and instead prefer to use project
+#: configuration file or per app configuration files.
 RSTVIEW_PARSER_FILTER_SETTINGS = {
     'default': {
         'initial_header_level': 3,
@@ -51,6 +56,12 @@ RSTVIEW_PARSER_FILTER_SETTINGS = {
         'doctitle_xform': False,
     },
 }
+
+
+#: Optional project level configurations file, this have to be a correct Python
+#: path to a crumb module.
+RSTVIEW_PARSER_ROOT_CONFIGS = None
+
 
 #: CSS class prefix for generated Pygments elements when not using inline
 #: styles.

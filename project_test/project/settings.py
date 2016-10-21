@@ -36,8 +36,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     #'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'rstview',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -130,6 +128,11 @@ MEDIA_URL = '/media/'
 # Example: "/var/www/example.com/static/"
 STATIC_ROOT = os.path.join(PROJECT_PATH, 'static')
 
+INSTALLED_APPS = INSTALLED_APPS+(
+    'rstview',
+    'project.foo',
+)
+
 TEMPLATES[0]['DIRS'] = (os.path.join(PROJECT_PATH, "templates"),)
 
 #
@@ -142,7 +145,7 @@ from rstview.settings import *
 # http://docutils.sourceforge.net/docs/user/config.html (The used writer is
 # ``html4css1``)
 RSTVIEW_PARSER_FILTER_SETTINGS = {
-    'default':{
+    'default': {
         'initial_header_level': 3,
         'file_insertion_enabled': RSTVIEW_PARSER_ENABLE_FILE_INSERTION,
         'raw_enabled': RSTVIEW_PARSER_ENABLE_RAW_INSERTION,
@@ -150,12 +153,7 @@ RSTVIEW_PARSER_FILTER_SETTINGS = {
         'footnote_references': 'superscript',
         'doctitle_xform': False,
     },
-    'full_page':{
-        'initial_header_level': 1,
-        'file_insertion_enabled': RSTVIEW_PARSER_ENABLE_FILE_INSERTION,
-        'raw_enabled': True,
-        'language_code': "fr",
-        'footnote_references': 'superscript',
-        'doctitle_xform': False,
-    },
 }
+
+# Optional project level configs (which can be overrided with app configs)
+RSTVIEW_PARSER_ROOT_CONFIGS = 'project.rstview_configs'

@@ -44,7 +44,9 @@ User’s Guide
    :maxdepth: 2
 
    install.rst
-   library_references/settings.rst
+   settings.rst
+   library_references/registry.rst
+   library_references/discover.rst
    library_references/parser.rst
    library_references/views.rst
    library_references/templatetags.rst

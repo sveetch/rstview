@@ -30,7 +30,7 @@ First ensure you have `pip`_ and `virtualenv`_ installed, then in your console t
 
     mkdir rstview-dev
     cd rstview-dev
-    virtualenv --system-site-packages .
+    virtualenv .
     source bin/activate
     pip install -r https://raw.githubusercontent.com/sveetch/rstview/master/requirements/dev.txt
 
@@ -52,7 +52,16 @@ Before using it you will need to install tox, it is recommended to install it at
 
     sudo pip install tox
 
-Then go in the rstview module directory, where the setup.py and tox.ini live and execute tox: ::
+Then go in the djangocodemirror module directory, where live the ``setup.py`` and ``tox.ini`` files and execute tox: ::
 
     tox
+
+Documentation
+-------------
+
+You should see about `sphinx-autobuild`_ for a watcher which automatically rebuild HTML documentation when you change sources.
+
+When installed you can use following command from ``docs/`` directory: ::
+
+    make livehtml
 
