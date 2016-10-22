@@ -1,17 +1,29 @@
 # -*- coding: utf-8 -*-
 """
+
+.. _discovering-intro:
+
 Configuration discovering
 =========================
 
-Configurations are registred through files that are loaded as Python
-modules, where some code can register needed configurations.
+Configurations are registred through files (called **configuration file**) that
+are loaded as Python modules where some code can register needed
+configurations.
 
-Discovering try to find these *configuration files* through project and its
+Discovering will find these configuration files through project and its
 enabled applications.
 
-Usually you will want to use automatic discovering, so you just have to
-initiate it once from your project (like in your root ``urls.py``) to load
-every configuration files.
+Usually you will want to use automatic discovering with the ``autodiscover``
+function, so you just have to initiate it once from your project (like in your
+root ``urls.py``) to load every configuration files.
+
+In some uncommon cases you may need to do discovering yourself from your code,
+use the ``discover`` function to do so.
+
+.. Note:
+    Once discovered, configurations from a configuration file are stored in
+    registry for your Django instance and trying to discover it again won't do
+    anything more.
 """
 import copy
 from django.conf import settings
@@ -24,6 +36,18 @@ from rstview.registry import rstview_registry
 def discover(module_path, filename=None):
     """
     Try to discover and load a configuration file from given Python path.
+
+    Example:
+
+        Supposing you made a configuration file at
+        ``myproject/myapp/rstview_configs.py``.
+
+        .. sourcecode:: python
+            :linenos:
+
+            from rstview.discover import discover
+
+            discover("myproject.myapp", "rstview_configs")
 
     Arguments:
         module_path (string): Python path to scan for ``filename`` module.
@@ -78,6 +102,17 @@ def autodiscover(filename='rstview_configs'):
 
     And finally load each configurations files finded in
     ``settings.INSTALLED_APPS``.
+
+    Example:
+
+        .. sourcecode:: python
+            :linenos:
+
+            from rstview.discover import autodiscover
+            autodiscover()
+
+        This is something you want to be executed early in your project,
+        usually the ``urls.py`` of your project is the best choice.
 
     Keyword Arguments:
         filename (string): Module filename to search for. Default to

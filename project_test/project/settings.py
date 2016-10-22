@@ -140,20 +140,5 @@ TEMPLATES[0]['DIRS'] = (os.path.join(PROJECT_PATH, "templates"),)
 #
 from rstview.settings import *
 
-# Available parser settings
-# These are options only for docutils parser, see
-# http://docutils.sourceforge.net/docs/user/config.html (The used writer is
-# ``html4css1``)
-RSTVIEW_PARSER_FILTER_SETTINGS = {
-    'default': {
-        'initial_header_level': 3,
-        'file_insertion_enabled': RSTVIEW_PARSER_ENABLE_FILE_INSERTION,
-        'raw_enabled': RSTVIEW_PARSER_ENABLE_RAW_INSERTION,
-        'language_code': RSTVIEW_PARSER_LANGUAGE_CODE,
-        'footnote_references': 'superscript',
-        'doctitle_xform': False,
-    },
-}
-
 # Optional project level configs (which can be overrided with app configs)
 RSTVIEW_PARSER_ROOT_CONFIGS = 'project.rstview_configs'

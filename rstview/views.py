@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 """
+
+.. _views-intro:
+
 Views
 =====
 
@@ -13,7 +16,7 @@ from rstview import parser
 
 class RstViewInvalidException(Exception):
     """
-    Excepion to be raised when RSTFileView usage is incorrect.
+    Exception to be raised when RSTFileView usage is incorrect.
     """
     pass
 
@@ -55,8 +58,7 @@ class RSTFileView(TemplateView):
         doc_parser_bodyonly (bool): If ``True``, parser will only return the
             rendered content, this is the default behavior. Default is
             ``False``.
-        doc_parser_opts_name (string): Name of an option set from
-            ``rstview.settings.RSTVIEW_PARSER_FILTER_SETTINGS``.
+        doc_parser_configuration (string): A registered configuration name.
             Default to ``default``.
     """
     #: Default template
@@ -66,7 +68,7 @@ class RSTFileView(TemplateView):
     doc_parser_class = parser.RstExtendedRenderer
     doc_parser_silent = settings.RSTVIEW_PARSER_SILENT
     doc_parser_bodyonly = True
-    doc_parser_opts_name = 'default'
+    doc_parser_configuration = 'default'
 
     def get_document_title(self):
         """
@@ -85,14 +87,14 @@ class RSTFileView(TemplateView):
             dict: Options to give to ``parser.SourceParser``:
 
                 * ``setting_key``: from class attribute
-                  ``RSTFileView.doc_parser_opts_name``;
+                  ``RSTFileView.doc_parser_configuration``;
                 * ``silent``: from class attribute
                   ``RSTFileView.doc_parser_silent``;
                 * ``body_only``: from class attribute
                   ``RSTFileView.doc_parser_bodyonly``;
         """
         return {
-            'setting_key': self.doc_parser_opts_name,
+            'setting_key': self.doc_parser_configuration,
             'silent': self.doc_parser_silent,
             'body_only': self.doc_parser_bodyonly,
         }
@@ -144,9 +146,8 @@ class RSTFileView(TemplateView):
             Source from given filepath.
         doc_html
             Rendered source from parser.
-        doc_parser_opts_name
-            Name of an option set from
-            ``settings.RSTVIEW_PARSER_FILTER_SETTINGS``.
+        doc_parser_configuration
+            Used configuration name.
 
         Returns:
             dict: Context variables expanded with variables.
@@ -160,6 +161,6 @@ class RSTFileView(TemplateView):
             'doc_title': self.get_document_title(),
             'doc_source': source,
             'doc_html': rendered,
-            'doc_parser_opts_name': self.doc_parser_opts_name,
+            'doc_parser_configuration': self.doc_parser_configuration,
         })
         return context

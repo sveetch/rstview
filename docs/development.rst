@@ -5,6 +5,7 @@
 .. _Flake8: http://flake8.readthedocs.io
 .. _Sphinx: http://www.sphinx-doc.org
 .. _tox: http://tox.readthedocs.io
+.. _sphinx-autobuild: https://github.com/GaretJax/sphinx-autobuild
 
 ===========
 Development

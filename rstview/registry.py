@@ -1,12 +1,35 @@
 # -*- coding: utf-8 -*-
 """
+
+.. _Docutils Configuration: http://docutils.sourceforge.net/docs/user/config.html
+
+.. _registry-intro:
+
 Configuration registry
 ======================
 
 Registry store configurations by the way of its interface.
 
 Default global registry is available at ``rstview.registry.rstview_registry``
-and is global for the whole project.
+and is global for the whole project and apps, you don't need to fill it again
+for a same Django instance.
+
+A configuration is a dictionnary of parameters for reStructuredText parser:
+
+.. sourcecode:: python
+
+    {
+        'default': {
+            'initial_header_level': 1,
+            'language_code': "en",
+        },
+    }
+
+Configuration name is used to retrieve parameters from the registry interface.
+
+See `Docutils Configuration`_ for a full references of available parser
+parameters.
+
 """
 
 

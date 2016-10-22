@@ -11,17 +11,16 @@ Welcome to rstview's documentation!
 
 This is a simple `Django`_ application around `docutils`_ to parse `reStructuredText`_ markup.
 
-.. Warning::
-    Version 0.3.0 have major backward changes, see details in documentation changelogs.
-
 Features
 ********
 
-* Either **Html4 or Htmls5 writers** available;
+* **Html4** and **Html5** writers available;
 * **Custom reporter** to validate source;
 * **Dedicated view** to make a page from a rst source;
-* **Template tag** to parse `reStructuredText`_ markup;
-* Comes with **unittests**;
+* **Template tag** to directly parse `reStructuredText`_ markup;
+* **Parser driven by configuration** so they can be shared without to define them again and again;
+* **Configuration registry** to store multiple different parser configurations;
+* **Test driven development**;
 
 Links
 *****
@@ -33,7 +32,7 @@ Links
 Dependancies
 ************
 
-* `Django`_ >= 1.7;
+* `Django`_ >= 1.7, <1.10;
 * `docutils`_ >= 0.7;
 * Optionnaly (but recommended): `Pygments`_ >= 1.2.x to have highlighted syntax in your *sourcecode* blocks;
 
@@ -44,19 +43,26 @@ User’s Guide
    :maxdepth: 2
 
    install.rst
+   library_references/templatetags.rst
+   library_references/views.rst
+
+References
+**********
+
+.. toctree::
+   :maxdepth: 1
+
    settings.rst
    library_references/registry.rst
    library_references/discover.rst
    library_references/parser.rst
-   library_references/views.rst
-   library_references/templatetags.rst
    library_references/html5writer.rst
 
 Developer’s Guide
 *****************
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    development.rst
    changelog.rst

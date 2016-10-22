@@ -82,7 +82,6 @@ class RstBasicRenderer(object):
         parser_settings = copy.deepcopy(
             rstview_registry.get_parameters(name)
         )
-        parser_settings.update(settings.RSTVIEW_PARSER_SECURITY)
 
         if silent:
             parser_settings.update({'report_level': 5})
@@ -90,6 +89,7 @@ class RstBasicRenderer(object):
         if initial_header_level:
             parser_settings['initial_header_level'] = initial_header_level
 
+        parser_settings.update(settings.RSTVIEW_PARSER_SECURITY)
         return parser_settings
 
     def get_writer_option(self):

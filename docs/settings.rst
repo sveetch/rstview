@@ -4,21 +4,6 @@
 Settings
 ========
 
-RSTVIEW_PARSER_SECURITY
------------------------
-
-Some parse options you should not change.
-They're automatically appended to each used parser options set.
-
-Default value:
-
-.. sourcecode:: python
-
-    {
-        'halt_level': 6,  # Dont halt script execution even if errors
-        'enable_exit': 0  # Disable script exit when halt or finished
-    }
-
 
 RSTVIEW_PARSER_SILENT
 ---------------------
@@ -32,15 +17,6 @@ push to standard output.
 Default value is ``False``.
 
 
-RSTVIEW_PARSER_LANGUAGE_CODE
-----------------------------
-
-Locale code for document. Docutils parser don't support the
-common pattern ``xx_XX``, only the first part ``xx``.
-
-Default value is ``"en"``.
-
-
 RSTVIEW_PARSER_WRITER
 ---------------------
 
@@ -49,35 +25,16 @@ The docutils writer to use, can be html4 (suitable for xhtml too) or html5.
 Default value is ``"html5"``.
 
 
-RSTVIEW_PARSER_ENABLE_FILE_INSERTION
-------------------------------------
-
-Enable unsafe file insertion directives, enable it at your own risk.
-
-Default value is ``False``.
-
-
-RSTVIEW_PARSER_ENABLE_RAW_INSERTION
------------------------------------
-
-Enable unsafe raw insertion directives, enable it at your own risk.
-
-Default value is ``False``.
-
-
 RSTVIEW_PARSER_FILTER_SETTINGS
 ------------------------------
 
 Default parser configurations used with autodiscovering for initial
 configuration registry.
 
-Configuration parameters are for docutils parser, see
-`Docutils Configuration`_.
-
 Default entry ``default`` must allways be present.
 
-Avoid to tamper this settings and instead prefer to use project
-configuration file or per app configuration files.
+Avoid to tamper this setting, instead prefer to use project configuration file
+or per app configuration files.
 
 Default value:
 
@@ -86,14 +43,16 @@ Default value:
     {
         'default': {
             'initial_header_level': 3,
-            'file_insertion_enabled': RSTVIEW_PARSER_ENABLE_FILE_INSERTION,
-            'raw_enabled': RSTVIEW_PARSER_ENABLE_RAW_INSERTION,
-            'language_code': RSTVIEW_PARSER_LANGUAGE_CODE,
+            'file_insertion_enabled': False,
+            'raw_enabled': False,
+            'language_code': "en",
             'footnote_references': 'superscript',
             'doctitle_xform': False,
         },
     }
 
+These are common parameters that should fit for every basic usage. For details
+about registry and configuration see :ref:`registry-intro`.
 
 RSTVIEW_PARSER_ROOT_CONFIGS
 ---------------------------
@@ -133,3 +92,21 @@ Template string used to format error from ``rst.viewreporter.SourceReporter``.
 Default value: ::
 
     "Line {lineno} : {message}"
+
+
+RSTVIEW_PARSER_SECURITY
+-----------------------
+
+Global parser security parameters.
+
+They're automatically appended to each configurations after every
+other parameters, so they can override them but never can be overrided.
+
+Default value:
+
+.. sourcecode:: python
+
+    {
+        'halt_level': 6,  # Dont halt script execution even if errors
+        'enable_exit': 0  # Disable script exit when halt or finished
+    }

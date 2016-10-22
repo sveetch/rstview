@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 """
+
+.. _templatetags-intro:
+
 Template tags
 =============
 
@@ -16,7 +19,7 @@ register = template.Library()
 @register.simple_tag
 def rst_render(source, *args, **kwargs):
     """
-    Parse and render given string source using given parser option set.
+    Parse and render given string using a parser configuration.
 
     Examples:
 

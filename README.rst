@@ -8,17 +8,16 @@ rstview
 
 This is a simple `Django`_ application around `docutils`_ to parse `reStructuredText`_ markup.
 
-.. Warning::
-    Version 0.3.0 have major backward changes, see details in documentation changelogs.
-
 Features
 ********
 
-* Either **Html4 or Htmls5 writers** available;
+* **Html4** and **Html5** writers available;
 * **Custom reporter** to validate source;
 * **Dedicated view** to make a page from a rst source;
-* **Template tag** to parse `reStructuredText`_ markup;
-* Comes with **unittests**;
+* **Template tag** to directly parse `reStructuredText`_ markup;
+* **Parser driven by configuration** so they can be shared without to define them again and again;
+* **Configuration registry** to store multiple different parser configurations;
+* **Test driven development**;
 
 Links
 *****
@@ -30,6 +29,6 @@ Links
 Dependancies
 ************
 
-* `Django`_ >= 1.7;
+* `Django`_ >= 1.7, <1.10;
 * `docutils`_ >= 0.7;
 * Optionnaly (but recommended): `Pygments`_ >= 1.2.x to have highlighted syntax in your *sourcecode* blocks;

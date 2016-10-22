@@ -24,13 +24,15 @@ Install
 
         from rstview.settings import *
 
-#. Finally add these two lines in your main ``urls.py``:
+#. Finally add these lines in your main ``urls.py``:
 
     .. sourcecode:: python
 
-        import rstview
         from rstview.discover import autodiscover
         autodiscover()
 
-    This is optional but if you don't do this, all ``rstview_configs.py`` file will be
-    ignored and only ``default`` parser configuration will be available.
+    You may also try to do discovering yourself from your code, see
+    :ref:`discovering-intro`. For details about registry and configuration
+    see :ref:`registry-intro`.
+
+Now you can use rstview either from :ref:`templatetags-intro` or :ref:`views-intro`.
