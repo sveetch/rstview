@@ -3,7 +3,7 @@
 .. _reStructuredText: http://docutils.sourceforge.net/rst.html
 .. _Pygments: http://pygments.org/
 
-**Project is no longer maintained and have been archived**
+**Project is no longer maintained and has been archived**
 
 rstview
 ===================================
