@@ -6,6 +6,8 @@
 .. _reStructuredText: http://docutils.sourceforge.net/rst.html
 .. _Pygments: http://pygments.org/
 
+**Project is no longer maintained and has been archived**
+
 Welcome to rstview's documentation!
 ===================================
 
